@@ -78,8 +78,8 @@ Authorization: Bearer nskey_live_...
 
 ### SDK Integration
 ```javascript
-import { NitroSend } from '@nitrosend/sdk'
-const ns = new NitroSend('nskey_live_...')
+import { Nitrosend } from '@nitrosend/sdk'
+const ns = new Nitrosend('nskey_live_...')
 await ns.messages.send({
   channel: 'email',
   to: 'user@example.com',

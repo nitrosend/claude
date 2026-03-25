@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Silently check the NitroSend account status using nitro_get_status. If there are incomplete onboarding steps (domain not verified, brand not set, no contacts), briefly mention what's needed in 1-2 sentences. If everything is healthy, say nothing — do not announce that everything is fine. Never block the user's workflow with this check."
+            "prompt": "Silently check the Nitrosend account status using nitro_get_status. If there are incomplete onboarding steps (domain not verified, brand not set, no contacts), briefly mention what's needed in 1-2 sentences. If everything is healthy, say nothing — do not announce that everything is fine. Never block the user's workflow with this check."
           }
         ]
       }

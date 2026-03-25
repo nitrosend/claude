@@ -10,7 +10,7 @@ description: >
 
 # Build Flow
 
-Help the user design and create automation flows using NitroSend.
+Help the user design and create automation flows using Nitrosend.
 
 ## Understand the Goal
 

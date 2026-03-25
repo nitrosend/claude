@@ -1,16 +1,16 @@
 ---
 name: setup
 description: >
-  Guided NitroSend onboarding. Walks through API key configuration, brand
+  Guided Nitrosend onboarding. Walks through API key configuration, brand
   identity setup, sending domain verification, and sender defaults. Also
   offers to configure proactive analytics (daily/weekly/monthly reports).
   Use when: "set up nitrosend", "configure email", "onboard", "get started
   with nitrosend", or when nitro_get_status shows incomplete onboarding.
 ---
 
-# NitroSend Setup
+# Nitrosend Setup
 
-Guide the user through NitroSend onboarding. Check what's already done and skip completed steps.
+Guide the user through Nitrosend onboarding. Check what's already done and skip completed steps.
 
 ## Step 1: Check Current State
 

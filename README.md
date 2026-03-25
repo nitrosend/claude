@@ -1,4 +1,4 @@
-# NitroSend Claude Plugin
+# Nitrosend Claude Plugin
 
 AI-native email marketing for Claude Code. Compose emails, build automation flows, manage contacts, and send campaigns — all from your terminal.
 
@@ -36,7 +36,7 @@ This walks you through brand configuration, domain verification, and sender defa
 
 ### MCP Tools (16+)
 
-The plugin bridges `@nitrosend/mcp` to give Claude access to the full NitroSend platform:
+The plugin bridges `@nitrosend/mcp` to give Claude access to the full Nitrosend platform:
 
 - **Email composition**: Create templates with section-based design, preview, and test sends
 - **Campaign management**: Create, target, approve, send, and schedule campaigns
@@ -61,7 +61,7 @@ The plugin bridges `@nitrosend/mcp` to give Claude access to the full NitroSend 
 
 ### Email Marketer Agent
 
-An expert email marketing strategist that combines deep domain knowledge with NitroSend's tools. Activated by default when the plugin is enabled.
+An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools. Activated by default when the plugin is enabled.
 
 - Proactive best-practice suggestions backed by industry benchmarks
 - Knows all 16 MCP tools and when to use each
@@ -88,11 +88,11 @@ Automatically checks your account status when Claude starts. Surfaces incomplete
 
 - Claude Code 1.0.33+
 - Node.js 18+ (for `npx @nitrosend/mcp`)
-- NitroSend API key (`NITROSEND_API_KEY` environment variable)
+- Nitrosend API key (`NITROSEND_API_KEY` environment variable)
 
 ## Links
 
-- [NitroSend](https://nitrosend.com)
+- [Nitrosend](https://nitrosend.com)
 - [Email Marketing Bible](https://emailmarketingskill.com)
 - [MCP Package](https://www.npmjs.com/package/@nitrosend/mcp)
 - [SDK Package](https://www.npmjs.com/package/@nitrosend/sdk)

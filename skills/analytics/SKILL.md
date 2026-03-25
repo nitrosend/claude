@@ -10,7 +10,7 @@ description: >
 
 # Analytics
 
-Provide email analytics and actionable insights using NitroSend data and email marketing benchmarks.
+Provide email analytics and actionable insights using Nitrosend data and email marketing benchmarks.
 
 ## Account Overview
 

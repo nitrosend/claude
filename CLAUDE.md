@@ -1,4 +1,4 @@
-# NitroSend Claude Plugin
+# Nitrosend Claude Plugin
 
 ## Conventions
 

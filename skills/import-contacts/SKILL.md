@@ -1,7 +1,7 @@
 ---
 name: import-contacts
 description: >
-  Import contacts into NitroSend from inline records or CSV. Handles email
+  Import contacts into Nitrosend from inline records or CSV. Handles email
   opt-in, SMS TCPA compliance, list assignment, and tagging. Use when:
   "import contacts", "add subscribers", "upload contacts", "add to list",
   "bulk add contacts", or "import CSV".
@@ -9,7 +9,7 @@ description: >
 
 # Import Contacts
 
-Help the user import contacts into NitroSend.
+Help the user import contacts into Nitrosend.
 
 ## Understand the Source
 
