@@ -6,10 +6,6 @@ description: >
   diagnosing deliverability, writing email copy, selecting platforms, or pulling
   benchmarks. Covers strategy, flows, deliverability, copywriting, segmentation,
   compliance, cold email, and 19 industry playbooks.
-license: MIT
-metadata:
-  author: george-hartley
-  version: "1.0"
 ---
 
 # Email Marketing Bible — Skill Reference

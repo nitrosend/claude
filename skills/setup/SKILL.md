@@ -59,7 +59,7 @@ Ask the user if they'd like proactive email analytics reports. If yes, help them
 - **Weekly** (Monday): Open/click rates, list growth, deliverability summary. Use `nitro_get_insights` with `period: "7d"` for trends.
 - **Monthly** (1st of month): Deep dive comparing their metrics against email marketing bible benchmarks. Use `nitro_get_insights` with `period: "30d"`, compare against industry benchmarks, and suggest specific improvements from the email marketing bible.
 
-Use the scheduled tasks system (CronCreate) to set these up. Suggested cron expressions:
+Use the scheduled tasks system (`create_scheduled_task`) to set these up. Suggested cron expressions:
 - Daily: `"23 8 * * 1-5"` (8:23am weekdays)
 - Weekly: `"47 8 * * 1"` (8:47am Mondays)
 - Monthly: `"13 9 1 * *"` (9:13am on the 1st)
