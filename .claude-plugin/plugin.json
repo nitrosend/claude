@@ -1,0 +1,14 @@
+{
+  "name": "nitrosend",
+  "version": "1.0.0",
+  "description": "AI-native email marketing platform. Compose emails, build automation flows, manage contacts, and send campaigns — all from Claude.",
+  "author": {
+    "name": "NitroSend",
+    "email": "contact@nitrosend.com",
+    "url": "https://nitrosend.com"
+  },
+  "homepage": "https://nitrosend.com",
+  "repository": "https://github.com/Nitrosend/claude-plugin",
+  "license": "MIT",
+  "keywords": ["email", "marketing", "automation", "campaigns", "transactional", "mcp", "esp"]
+}
