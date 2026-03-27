@@ -16,4 +16,3 @@
 - `hooks/hooks.json` — SessionStart auto-status check
 - `agents/` — email-marketer agent definition
 - `skills/` — 8 skills (setup, compose-email, send-campaign, send-transactional, build-flow, import-contacts, analytics, email-marketing-bible)
-- `settings.json` — default agent setting

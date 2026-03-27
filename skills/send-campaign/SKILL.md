@@ -36,8 +36,8 @@ If they need a new segment, use `nitro_define_segment` to create one with filter
 
 ## Step 3: Preview and Test
 
-1. Preview: `nitro_preview_and_test` with `target: "campaign"`, `operation: "preview"`
-2. Test send: `nitro_preview_and_test` with `operation: "send_test"`
+1. Review: `nitro_review_and_test` with `target: "campaign"`, `target_id`, `operation: "review"` for validation and spam scoring
+2. Test send: `nitro_review_and_test` with `operation: "send_test"`
 3. Share preview results and ask for approval
 
 ## Step 4: Approve

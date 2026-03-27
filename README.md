@@ -10,7 +10,7 @@ AI-native email marketing for Claude Code. Compose emails, build automation flow
 export NITROSEND_API_KEY=nskey_live_your_key_here
 ```
 
-Get your API key at [nitrosend.com](https://nitrosend.com).
+Get your API key at [nitrosend.com/settings/api-keys](https://nitrosend.com/settings/api-keys).
 
 ### 2. Install the plugin
 
@@ -21,7 +21,7 @@ claude plugin install nitrosend@marketplace-name
 
 **Local development**:
 ```bash
-claude --plugin-dir /path/to/claude-plugin
+claude --plugin-dir /path/to/claude
 ```
 
 ### 3. Run setup
@@ -34,7 +34,7 @@ This walks you through brand configuration, domain verification, and sender defa
 
 ## What's Included
 
-### MCP Tools (16+)
+### MCP Tools (20)
 
 The plugin bridges `@nitrosend/mcp` to give Claude access to the full Nitrosend platform:
 
@@ -61,10 +61,10 @@ The plugin bridges `@nitrosend/mcp` to give Claude access to the full Nitrosend 
 
 ### Email Marketer Agent
 
-An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools. Activated by default when the plugin is enabled.
+An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools.
 
 - Proactive best-practice suggestions backed by industry benchmarks
-- Knows all 16 MCP tools and when to use each
+- Knows all 20 MCP tools and when to use each
 - Covers strategy, copywriting, deliverability, compliance, and 19 industry playbooks
 - Persistent memory across sessions
 

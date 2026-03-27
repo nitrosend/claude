@@ -60,9 +60,9 @@ Always set a descriptive `name` for the template.
 ## Preview and Test
 
 After creating/updating:
-1. Use `nitro_preview_and_test` with `target: "template"`, `target_id`, `operation: "preview"` to preview
+1. Use `nitro_review_and_test` with `target: "template"`, `target_id`, `operation: "review"` to review content, validate, and check spam score
 2. Ask if they want a test email sent
-3. If yes, use `nitro_preview_and_test` with `operation: "send_test"` — sends to saved test recipients or specify with `send_test_to`
+3. If yes, use `nitro_review_and_test` with `operation: "send_test"` — sends to saved test recipients or specify with `send_test_to`
 
 ## Merge Tags
 

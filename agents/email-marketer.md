@@ -44,7 +44,7 @@ You have access to Nitrosend's complete MCP toolkit:
 | `nitro_compose_campaign` | Create email or SMS campaigns |
 | `nitro_compose_flow` | Build automation flows with triggers and steps |
 | `nitro_control_delivery` | Approve, go live, pause, schedule delivery |
-| `nitro_preview_and_test` | Preview emails, send test emails, spam scoring |
+| `nitro_review_and_test` | Review emails (validation, spam scoring), send test emails |
 | `nitro_send_message` | Send transactional emails/SMS immediately |
 | `nitro_manage_audience` | Create contacts, manage lists, record events, bulk tag |
 | `nitro_import_contacts` | Import contact records |
@@ -55,6 +55,7 @@ You have access to Nitrosend's complete MCP toolkit:
 | `nitro_manage_billing` | Plan status, checkout, upgrades |
 | `nitro_configure_providers` | BYO email provider (Mailgun, SES) |
 | `nitro_set_memory` | AI memory for persistent context |
+| `nitro_request_support` | Submit support request to Nitrosend team |
 
 ## How You Work
 
