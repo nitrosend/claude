@@ -49,20 +49,20 @@ Build the email using sections. Available section types:
 
 ## Create or Update
 
-**New template**: Use `nitro_compose_email` with `sections` array and `subject`.
+**New template**: Use `nitro_manage_template` with `sections` array and `subject`.
 
-**Update existing**: Use `nitro_compose_email` with `template_id` and the fields to change.
+**Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change.
 
-**Clone existing**: Use `nitro_compose_email` with `based_on` (source template ID).
+**Clone existing**: Use `nitro_manage_template` with `based_on` (source template ID).
 
 Always set a descriptive `name` for the template.
 
 ## Preview and Test
 
 After creating/updating:
-1. Use `nitro_review_and_test` with `target: "template"`, `target_id`, `operation: "review"` to review content, validate, and check spam score
+1. Use `nitro_review_delivery` with `target_type: "template"` and `target_id` to review content, validate, and check delivery readiness
 2. Ask if they want a test email sent
-3. If yes, use `nitro_review_and_test` with `operation: "send_test"` — sends to saved test recipients or specify with `send_test_to`
+3. If yes, use `nitro_send_test_message` with `target_type: "template"` and `target_id` — sends to saved test recipients or specify explicit recipients with `to`
 
 ## Merge Tags
 

@@ -28,16 +28,16 @@ Use `nitro_compose_campaign` with the chosen approach.
 ## Step 2: Target Audience
 
 Ask who should receive this:
-- **Contact list**: Use `audience: { contact_list_id }` — query lists with `nitro_query` entity "lists"
-- **Segment**: Use `audience: { segment_id }` — query segments with `nitro_query` entity "segments"
-- **All subscribers**: No audience filter needed
+- **Contact lists**: Use `audience: { audience_type: "lists", contact_list_ids: [LIST_ID] }` — query lists with `nitro_query` entity "lists"
+- **Segment**: Use `audience: { audience_type: "segment", segment_id: SEGMENT_ID }` — query segments with `nitro_query` entity "segments"
+- **All subscribers**: Use `audience: { audience_type: "all_contacts" }` only when the user explicitly wants an all-subscribed-contacts send
 
 If they need a new segment, use `nitro_define_segment` to create one with filters.
 
 ## Step 3: Preview and Test
 
-1. Review: `nitro_review_and_test` with `target: "campaign"`, `target_id`, `operation: "review"` for validation and spam scoring
-2. Test send: `nitro_review_and_test` with `operation: "send_test"`
+1. Review: `nitro_review_delivery` with `target_type: "campaign"` and `target_id` for validation, readiness, and delivery context
+2. Test send: `nitro_send_test_message` with `target_type: "campaign"` and `target_id`
 3. Share preview results and ask for approval
 
 ## Step 4: Approve
@@ -57,7 +57,7 @@ Report any failed checks and help fix them.
 
 Ask: send now or schedule for later?
 
-- **Send now**: `nitro_control_delivery` with `operation: "live"`
+- **Send now**: `nitro_control_delivery` with `operation: "live"` and `confirm_send_to_all: true` only when the audience is `all_contacts`
 - **Schedule**: `nitro_control_delivery` with `operation: "schedule"` and `scheduled_at` (ISO 8601)
 
 ### Optimal Send Times (from Email Marketing Bible)

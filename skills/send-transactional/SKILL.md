@@ -35,7 +35,7 @@ body: "Thank you for your order..."
 
 ### Branded Template
 For on-brand transactional emails:
-1. Create a template with `nitro_compose_email` using sections
+1. Create a template with `nitro_manage_template` using sections
 2. Then send with `nitro_send_message` using `template_id`
 
 ### Merge Variables

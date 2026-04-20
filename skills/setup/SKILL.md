@@ -1,7 +1,7 @@
 ---
 name: setup
 description: >
-  Guided Nitrosend onboarding. Walks through API key configuration, brand
+  Guided Nitrosend onboarding. Walks through remote MCP connection, brand
   identity setup, sending domain verification, and sender defaults. Also
   offers to configure proactive analytics (daily/weekly/monthly reports).
   Use when: "set up nitrosend", "configure email", "onboard", "get started
@@ -16,15 +16,15 @@ Guide the user through Nitrosend onboarding. Check what's already done and skip 
 
 Run `nitro_get_status` to see what's already configured. Report the current state briefly.
 
-## Step 2: API Key
+## Step 2: Connection
 
-If the MCP server is connected, the API key is already working. Confirm this.
+If the MCP server is connected, OAuth is already working. Confirm this.
 
 If not connected, tell the user:
-1. Sign up at https://nitrosend.com
-2. Copy their API key from the dashboard
-3. Set the environment variable: `export NITROSEND_API_KEY=nskey_live_...`
-4. Restart Claude Code
+1. Open the MCP/connectors UI in their Claude client
+2. Select the bundled `nitrosend` server
+3. Complete the browser sign-in and approval flow
+4. Verify the connection with `nitro_get_status`
 
 ## Step 3: Brand Identity
 
@@ -41,7 +41,7 @@ If no domain is verified, guide them through:
 1. `nitro_manage_domains` with `operation: "add"` and their domain (e.g. `send.example.com`)
 2. Show the DNS records they need to add at their registrar
 3. Wait for them to add records, then `nitro_manage_domains` with `operation: "verify"`
-4. Mention they can use the sandbox domain (`try.nitrosend.com`, 50 emails/month) while setting up
+4. Mention they can use the sandbox domain (`nitr-o.com`) while setting up
 
 ## Step 5: Sender Defaults
 
