@@ -27,6 +27,10 @@ The plugin bundles Nitrosend as a remote MCP server at
 client, select the bundled `nitrosend` server, and complete the browser OAuth
 flow for the Nitrosend account you want active.
 
+Do not install `@nitrosend/cli` for Claude Desktop, Claude.ai, Cowork, or this
+plugin. The CLI is for terminal and CI workflows; Claude uses the remote MCP
+connector directly.
+
 See [SETUP.md](./SETUP.md) for connect, reconnect, disconnect, and
 account-verification guidance.
 

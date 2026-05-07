@@ -11,6 +11,19 @@ The plugin bundles Nitrosend as a remote MCP server at
 user toward the deprecated local bridge or an environment-variable API-key flow
 as the default setup path for this plugin.
 
+## Surface Selection
+
+For Claude Desktop, Claude.ai, Claude Cowork, and the Nitrosend Claude plugin,
+the setup path is always the remote MCP connector. Do not recommend installing
+`@nitrosend/cli`, running `nitrosend login`, or asking for an API key when the
+user is trying to connect Nitrosend inside Claude.
+
+The CLI is for a user's own terminal, CI jobs, and agent runners with real shell
+and network access. Claude command sandboxes may block outbound access to
+`api.nitrosend.com`, so CLI dogfooding from inside Claude is not a reliable
+Claude Desktop setup test. Verify Claude Desktop by connecting the MCP server
+and calling `nitro_get_status`.
+
 ## First-Time Connect
 
 1. Confirm the plugin is enabled.

@@ -12,6 +12,19 @@ description: >
 
 Guide the user through Nitrosend onboarding. Check what's already done and skip completed steps.
 
+## Connection Surface
+
+If the user is in Claude Desktop, Claude.ai, Claude Cowork, or this Nitrosend
+Claude plugin, connect Nitrosend through the remote MCP connector at
+`https://api.nitrosend.com/mcp`. Do not recommend `@nitrosend/cli`,
+`nitrosend login`, `@nitrosend/mcp`, or API-key setup for standard Claude
+Desktop onboarding.
+
+Use the CLI only when the user explicitly wants a terminal, CI, or headless
+agent-runner workflow outside Claude Desktop. If a command sandbox cannot reach
+`api.nitrosend.com`, treat that as sandbox egress, not as a reason to switch
+Claude Desktop users to the CLI.
+
 ## Step 1: Check Current State
 
 Run `nitro_get_status` to see what's already configured. Report the current state briefly.
