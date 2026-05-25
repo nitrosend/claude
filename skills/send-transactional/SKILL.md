@@ -25,7 +25,7 @@ Common transactional email types:
 ## Design Approach
 
 ### Quick Send (Plain Text)
-For simple messages, use `nitro_send_message` directly:
+For simple app-triggered messages, use the REST API or SDK:
 ```
 channel: "email"
 to: "user@example.com"
@@ -36,7 +36,7 @@ body: "Thank you for your order..."
 ### Branded Template
 For on-brand transactional emails:
 1. Create a template with `nitro_manage_template` using sections
-2. Then send with `nitro_send_message` using `template_id`
+2. Then send through `POST /v1/my/messages` or `ns.messages.send` using `template_id`
 
 ### Merge Variables
 Use the `data` field for personalization:
@@ -57,7 +57,7 @@ Reference in templates/body as `{{ order_id }}`, `{{ name }}`, etc.
 | Delivery | Campaign workflow | Immediate |
 | Tracking | Opens/clicks tracked | Optional |
 
-When using transactional in a flow, set `transactional: true` on the email step.
+Do not model transactional sends as MCP flows. Use normal flow email steps for lifecycle automation and API/SDK transactional sends for application events.
 
 ## For Developers
 
@@ -92,7 +92,7 @@ await ns.messages.send({
 ## Dry Run
 
 Always offer to do a dry run first:
-`nitro_send_message` with `dry_run: true` validates without sending.
+`POST /v1/my/messages` with `dry_run: true` validates without sending.
 
 ## Idempotency
 
