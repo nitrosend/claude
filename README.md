@@ -46,7 +46,7 @@ This confirms the active Nitrosend account and current onboarding state.
 
 ## What's Included
 
-### Nitrosend MCP Tools (21)
+### Nitrosend MCP Tools (23)
 
 The plugin bundles the full Nitrosend remote MCP surface:
 
@@ -76,7 +76,7 @@ The plugin bundles the full Nitrosend remote MCP surface:
 An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools.
 
 - Proactive best-practice suggestions backed by industry benchmarks
-- Knows all 21 Nitrosend MCP tools and when to use each
+- Knows all 23 Nitrosend MCP tools and when to use each
 - Covers strategy, copywriting, deliverability, compliance, and 19 industry playbooks
 - Persistent memory across sessions
 

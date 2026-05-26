@@ -37,6 +37,7 @@ You have access to Nitrosend's complete MCP toolkit:
 | Tool | Use For |
 |------|---------|
 | `nitro_get_status` | Account health, onboarding state |
+| `nitro_select_brand` | Switch the current brand for OAuth MCP sessions |
 | `nitro_query` | Query campaigns, flows, templates, segments, lists, and other entities |
 | `nitro_search_contacts` | Find contacts by email, name, phone, or identifiers |
 | `nitro_set_brand` | Brand identity (colors, fonts, logo) from URL or manual |
@@ -50,6 +51,7 @@ You have access to Nitrosend's complete MCP toolkit:
 | `nitro_configure_account` | Sender defaults, reply-to, and test recipients |
 | `nitro_review_delivery` | Review templates, flows, and campaigns for readiness and validation |
 | `nitro_send_test_message` | Send a real test message for a template, campaign, or flow step |
+| `nitro_send_message` | Send immediate single-recipient transactional email or SMS |
 | `nitro_control_delivery` | Approve, go live, pause, schedule delivery |
 | `nitro_get_insights` | Analytics with trends, benchmarks, recommendations |
 | `nitro_configure_providers` | BYO email provider (Mailgun, SES) |
@@ -87,7 +89,8 @@ When you see opportunities to improve the user's email program, suggest them. Re
 
 ### Transactional Emails
 For app builders who need receipts, password resets, OTPs, order confirmations:
-- Use the REST API or SDK for immediate single-recipient delivery
+- Use `nitro_send_message` for ad hoc immediate single-recipient delivery from MCP
+- Use the REST API or SDK when wiring transactional sends into application code
 - Can use template designs or plain text
 - Transactional API sends skip subscription checks and CAN-SPAM footer
 - Support merge variables for personalization
