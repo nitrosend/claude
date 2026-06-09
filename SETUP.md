@@ -46,7 +46,7 @@ active:
 2. Log out of Nitrosend in the browser session that Claude opens for OAuth.
 3. Start the connection flow again.
 4. Immediately verify the active account by calling `nitro_get_status` and
-   reporting the returned account and client account details back to the user.
+   reporting the returned account and brand details back to the user.
 
 ## Verification
 
