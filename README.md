@@ -56,7 +56,7 @@ The plugin bundles the full Nitrosend remote MCP surface:
 - **Transactional email**: Send receipts, OTPs, confirmations — immediate, single-recipient
 - **Contact management**: Import, segment, tag, list management
 - **Analytics**: Account-wide and per-entity insights with trends and benchmarks
-- **Account management**: Brand setup, domain verification, sender config, providers, billing, support
+- **Account management**: Brand Kit setup, domain verification, sender config, providers, billing, support
 
 ### Skills
 
