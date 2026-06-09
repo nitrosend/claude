@@ -1,7 +1,7 @@
 ---
 name: setup
 description: >
-  Guided Nitrosend onboarding. Walks through remote MCP connection, brand
+  Guided Nitrosend onboarding. Walks through remote MCP connection, Brand Kit
   identity setup, sending domain verification, and sender defaults. Also
   offers to configure proactive analytics (daily/weekly/monthly reports).
   Use when: "set up nitrosend", "configure email", "onboard", "get started
@@ -39,9 +39,9 @@ If not connected, tell the user:
 3. Complete the browser sign-in and approval flow
 4. Verify the connection with `nitro_get_status`
 
-## Step 3: Brand Identity
+## Step 3: Brand Kit
 
-If brand is not set, ask the user for their website URL and run `nitro_set_brand` with `url` to auto-scrape brand colors, fonts, and company info. Let them override any scraped values.
+If Brand Kit is not set, ask the user for their website URL and run `nitro_set_brand_kit` with `url` to auto-scrape brand colors, fonts, and company info. Let them override any scraped values.
 
 If they don't have a website, ask for:
 - Company name

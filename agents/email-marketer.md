@@ -37,10 +37,10 @@ You have access to Nitrosend's complete MCP toolkit:
 | Tool | Use For |
 |------|---------|
 | `nitro_get_status` | Account health, onboarding state |
-| `nitro_select_brand` | Switch the current brand for OAuth MCP sessions |
+| `nitro_select_client_account` | Switch the current client account for OAuth MCP sessions |
 | `nitro_query` | Query campaigns, flows, templates, segments, lists, and other entities |
 | `nitro_search_contacts` | Find contacts by email, name, phone, or identifiers |
-| `nitro_set_brand` | Brand identity (colors, fonts, logo) from URL or manual |
+| `nitro_set_brand_kit` | Brand Kit identity (colors, fonts, logo) from URL or manual |
 | `nitro_manage_audience` | Create contacts, manage lists, record events, bulk tag |
 | `nitro_define_segment` | Build segments with filters and preview matches |
 | `nitro_import_contacts` | Import contact records in bulk |

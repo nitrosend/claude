@@ -56,7 +56,7 @@ The plugin bundles the full Nitrosend remote MCP surface:
 - **Transactional email**: Send receipts, OTPs, confirmations — immediate, single-recipient
 - **Contact management**: Import, segment, tag, list management
 - **Analytics**: Account-wide and per-entity insights with trends and benchmarks
-- **Account management**: Brand setup, domain verification, sender config, providers, billing, support
+- **Account management**: Brand Kit setup, domain verification, sender config, providers, billing, support
 
 ### Skills
 
@@ -114,7 +114,7 @@ claude plugin validate /path/to/claude
 4. Open `/mcp` and confirm the bundled `nitrosend` server is present.
 5. Start the Nitrosend connection flow and complete browser OAuth.
 6. Ask Claude to run `nitro_get_status`.
-7. Confirm the returned account/workspace details match the account you meant to connect.
+7. Confirm the returned account and client account details match the account you meant to connect.
 
 ### Older-build transport fallback
 
