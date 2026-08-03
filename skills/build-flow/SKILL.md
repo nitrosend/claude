@@ -68,6 +68,14 @@ Use `nitro_compose_flow` with:
 
 Offer `dry_run: true` first to preview the flow graph.
 
+**Composition contract**: any newly authored email step enters the contract
+before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`
+to get the brand, memory, lifecycle, source, binding, and design context, author
+the steps against it (optionally validate without persistence), then persist
+with `composition_mode: "draft"` — or use the returned metered
+`composition_mode: "generate"` call for server-side authoring. SMS-only flows
+and rename-only patches do not need email authoring context.
+
 ## Review and Approve
 
 1. Show the dry-run preview (node types and connections)

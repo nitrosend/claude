@@ -25,6 +25,18 @@ For email, choose design approach:
 
 Use `nitro_compose_campaign` with the chosen approach.
 
+**Composition contract**: newly authored email copy or design always enters the
+contract before persistence. Call `nitro_compose_campaign` with
+`composition_mode: "intent"` to get the current brand, memory, source, binding,
+and design context, author against it (optionally `composition_mode:
+"validate"`), then persist with `composition_mode: "draft"` — or use the
+returned metered `composition_mode: "generate"` call for server-side authoring.
+Supplying creative fields without a contract returns the intent contract instead
+of creating the campaign. Cloning a template without creative overrides, plain
+operational edits, and `dry_run` previews skip recomposition. Preserve explicit
+user constraints verbatim: exact copy, URLs, offers, sender fields, audience,
+schedule, and legal text.
+
 ## Step 2: Target Audience
 
 Ask who should receive this:

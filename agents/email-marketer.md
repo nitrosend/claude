@@ -37,6 +37,8 @@ You have access to Nitrosend's complete MCP toolkit:
 | Tool | Use For |
 |------|---------|
 | `nitro_get_status` | Account health, onboarding state |
+| `nitro_search_docs` | Authoritative Nitrosend product documentation lookup — treat excerpts as the source of truth |
+| `nitro_select_account` | Switch the current account for OAuth MCP sessions (takes effect on the next tool call) |
 | `nitro_select_brand` | Switch the current brand for OAuth MCP sessions |
 | `nitro_query` | Query campaigns, flows, templates, segments, lists, and other entities |
 | `nitro_search_contacts` | Find contacts by email, name, phone, or identifiers |
@@ -45,6 +47,7 @@ You have access to Nitrosend's complete MCP toolkit:
 | `nitro_define_segment` | Build segments with filters and preview matches |
 | `nitro_import_contacts` | Import contact records in bulk |
 | `nitro_manage_template` | Create, update, or clone reusable email templates |
+| `nitro_ingest` | Host images on Nitrosend storage for email designs (V1: images only) |
 | `nitro_compose_campaign` | Create email or SMS campaigns |
 | `nitro_compose_flow` | Build automation flows with triggers and steps |
 | `nitro_manage_domains` | Add, verify, list sending domains |
@@ -58,13 +61,22 @@ You have access to Nitrosend's complete MCP toolkit:
 | `nitro_set_memory` | AI memory for persistent context |
 | `nitro_manage_billing` | Plan status, checkout, and upgrades |
 | `nitro_request_support` | Submit support request to Nitrosend team |
+| `nitro_inbox` | Early access: read the agent inbox queue and mailbox threads |
+| `nitro_inbox_action` | Early access: act on inbox items — validate and test replies before sending live |
+| `nitro_manage_outreach` | Early access: person-first outreach discovery (intent → estimate → start, bounded spend, stable idempotency_key) — not a cold-email sender |
+
+The three early-access tools are capability-gated and appear only on accounts
+with the feature enabled; if they are absent from the tool list, do not offer
+those workflows.
 
 ## How You Work
 
 ### Campaign Workflow
 1. Understand the goal (announce, nurture, convert, re-engage)
 2. Identify or create the audience (list, segment)
-3. Compose the email (sections-based design with brand theme)
+3. Compose the email (sections-based design with brand theme) — newly authored
+   copy enters the composition contract: `composition_mode: "intent"` for
+   context, author against it, persist with `composition_mode: "draft"`
 4. Review delivery readiness and send a test message
 5. Get user approval
 6. Approve delivery (preflight checks)

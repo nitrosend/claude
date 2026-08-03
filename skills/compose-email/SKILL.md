@@ -47,15 +47,46 @@ Build the email using sections. Available section types:
 - **Dark mode**: Use transparent PNGs for logos, avoid pure white backgrounds.
 - **Footer**: Always include company name, physical address, and unsubscribe link.
 
+## Composition Contract
+
+Newly authored copy or full sections always enter the composition contract
+before persistence:
+
+1. Call `nitro_manage_template` with `composition_mode: "intent"` — it returns
+   the current brand, memory, source, binding, and design context
+2. Author the sections against that contract; optionally check them with
+   `composition_mode: "validate"` (no persistence)
+3. Persist with `composition_mode: "draft"`
+
+Alternatively, request server-side authoring via the returned metered
+`composition_mode: "generate"` call, which composes, validates, and persists one
+draft. Supplying creative fields without a contract returns the intent contract
+instead of silently creating anything. Targeted `section_updates` (exact
+`text_patch` copy fixes, prop/style tweaks) and clones without creative
+overrides do not need recomposition.
+
 ## Create or Update
 
-**New template**: Use `nitro_manage_template` with `sections` array and `subject`.
+**New template**: Use `nitro_manage_template` with `sections` array and `subject` (via the composition contract above).
 
-**Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change.
+**Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change — prefer `section_updates` for targeted edits.
 
 **Clone existing**: Use `nitro_manage_template` with `based_on` (source template ID).
 
 Always set a descriptive `name` for the template.
+
+## Images
+
+Host images on Nitrosend storage with `nitro_ingest` (V1 is image-only):
+
+- Small local or chat-attached images: pass `image_data`
+- Larger local files: request a direct upload with `upload: {kind, filename,
+  content_type, byte_size, checksum}`, PUT the bytes to the returned
+  `direct_upload.url`, then call `nitro_ingest` again with the `signed_id`
+- Public remote image URLs: use directly in sections when permanence is not
+  needed, or pass as `image_url` for a Nitrosend-hosted copy
+
+The returned hosted URL is what goes into the `image` section's `src`.
 
 ## Preview and Test
 

@@ -39,6 +39,18 @@ If not connected, tell the user:
 3. Complete the browser sign-in and approval flow
 4. Verify the connection with `nitro_get_status`
 
+### Multiple Accounts
+
+If the user needs a different Nitrosend account on an OAuth connection:
+
+1. Run `nitro_get_status` and read the ids from `available_accounts.items[*].id`
+2. Run `nitro_select_account` with the target `account_id` — the switch takes
+   effect on the next tool call and lands on that account's default brand
+3. Re-run `nitro_get_status` to confirm, then `nitro_select_brand` if a
+   non-default brand is needed
+
+API-key connections are pinned to one account and cannot switch.
+
 ## Step 3: Brand Kit
 
 If Brand Kit is not set, ask the user for their website URL and run `nitro_set_brand_kit` with `url` to auto-scrape brand colors, fonts, and company info. Let them override any scraped values.
@@ -76,6 +88,14 @@ Use the scheduled tasks system (`create_scheduled_task`) to set these up. Sugges
 - Daily: `"23 8 * * 1-5"` (8:23am weekdays)
 - Weekly: `"47 8 * * 1"` (8:47am Mondays)
 - Monthly: `"13 9 1 * *"` (9:13am on the 1st)
+
+## Product Questions
+
+For any Nitrosend product question not answered by the current context (how a
+feature works, setup or verification steps, API/SDK/CLI usage, integrations),
+call `nitro_search_docs` and treat the returned excerpts as the source of truth.
+If they do not establish an answer, search again or say what is not verified —
+never invent product behavior.
 
 ## Completion
 
