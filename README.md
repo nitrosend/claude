@@ -166,7 +166,7 @@ for the current-build plugin smoke test above.
 1. Install or enable the plugin in the Anthropic surface you plan to submit or review from.
 2. Connect Nitrosend through the client's MCP/connectors UI.
 3. Run `nitro_get_status` immediately after the browser flow returns.
-4. If OAuth connects instantly and account selection is ambiguous, disconnect Nitrosend, log out of Nitrosend in the browser session Claude opens, reconnect, then run `nitro_get_status` again.
+4. If OAuth connects instantly and account selection is ambiguous, run `nitro_get_status`, check the returned account fields, and switch with `nitro_select_account` if needed — reconnect only to sign in as a different Nitrosend login (see SETUP.md).
 
 ## Links
 
