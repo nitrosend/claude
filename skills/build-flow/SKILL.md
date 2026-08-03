@@ -97,8 +97,14 @@ Flow `approve`, `reject`, and `live` all require the exact current draft
 
 To rebuild an existing flow:
 - Use `nitro_compose_flow` with `mode: "replace"`, `flow_id`, `confirm: true`,
-  and `expected_draft_revision_id` (the current draft revision)
+  `expected_draft_revision_id` (the current draft revision), and a stable
+  `idempotency_key`
 
 To rename or update selected email actions:
-- Use `nitro_compose_flow` with `mode: "patch"`, `flow_id`, targeting email
-  actions by `action_name` + their `if_version` concurrency token
+- Use `nitro_compose_flow` with `mode: "patch"`, `flow_id`, an
+  `idempotency_key`, targeting email actions by `action_name` + their
+  `if_version` concurrency token
+
+Every non-dry-run persistence mutation (create, rename patch, replace) requires
+an `idempotency_key`; drafts persisted through the composition contract reuse
+the stable key supplied by the returned `next_call`.
