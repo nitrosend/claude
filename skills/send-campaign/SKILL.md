@@ -52,7 +52,7 @@ If they need a new segment, use `nitro_define_segment` to create one with filter
 ## Step 3: Preview and Test
 
 1. Review: `nitro_review_delivery` with `target_type: "campaign"` and `target_id` for validation, readiness, and delivery context
-2. Test send: `nitro_send_test_message` with `target_type: "campaign"` and `target_id`
+2. Test send: `nitro_send_test_message` with `target_type: "campaign"`, `target_id`, and an `idempotency_key` (reuse the same key on retry to avoid duplicates)
 3. Share preview results and ask for approval
 
 ## Step 4: Approve

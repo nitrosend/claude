@@ -84,18 +84,20 @@ Host images on Nitrosend storage with `nitro_ingest` (V1 is image-only):
 - Small local or chat-attached images: pass `image_data`
 - Larger local files: request a direct upload with `upload: {kind, filename,
   content_type, byte_size, checksum}`, PUT the bytes to the returned
-  `direct_upload.url`, then call `nitro_ingest` again with the `signed_id`
+  `direct_upload.url` sending exactly the returned `direct_upload.headers`,
+  then call `nitro_ingest` again with the `signed_id`
 - Public remote image URLs: use directly in sections when permanence is not
   needed, or pass as `image_url` for a Nitrosend-hosted copy
 
-The returned hosted URL is what goes into the `image` section's `src`.
+The returned hosted URL (`media_url`/`image_url`) is what goes into the `image`
+section's `src` — never place a `signed_id` directly in sections.
 
 ## Preview and Test
 
 After creating/updating:
 1. Use `nitro_review_delivery` with `target_type: "template"` and `target_id` to review content, validate, and check delivery readiness
 2. Ask if they want a test email sent
-3. If yes, use `nitro_send_test_message` with `target_type: "template"` and `target_id` — sends to saved test recipients or specify explicit recipients with `to`
+3. If yes, use `nitro_send_test_message` with `target_type: "template"`, `target_id`, and an `idempotency_key` (reuse the same key on retry to avoid duplicate test sends) — sends to saved test recipients or specify explicit recipients with `to`
 
 ## Merge Tags
 

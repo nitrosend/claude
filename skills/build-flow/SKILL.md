@@ -84,13 +84,21 @@ authoring context.
 1. Show the dry-run preview (node types and connections)
 2. Get user approval on the flow design
 3. Create for real (without dry_run)
-4. Approve: `nitro_control_delivery` with `target_type: "flow"`, `operation: "approve"`
-5. Go live: `nitro_control_delivery` with `operation: "live"`
+4. Review: `nitro_review_delivery` with `target_type: "flow"`, `target_id`, and
+   the exact current `revision_id` (flow reviews require it)
+5. Approve: `nitro_control_delivery` with `target_type: "flow"`,
+   `operation: "approve"`, and the exact current draft `revision_id`
+6. Go live: `nitro_control_delivery` with `operation: "live"` and `revision_id`
+
+Flow `approve`, `reject`, and `live` all require the exact current draft
+`revision_id`; `pause`/`resume` omit it, and `resume` never publishes a draft.
 
 ## Modify Existing Flows
 
 To rebuild an existing flow:
-- Use `nitro_compose_flow` with `mode: "replace"`, `flow_id`, and `confirm: true`
+- Use `nitro_compose_flow` with `mode: "replace"`, `flow_id`, `confirm: true`,
+  and `expected_draft_revision_id` (the current draft revision)
 
-To rename only:
-- Use `nitro_compose_flow` with `mode: "patch"` and `flow_id`
+To rename or update selected email actions:
+- Use `nitro_compose_flow` with `mode: "patch"`, `flow_id`, targeting email
+  actions by `action_name` + their `if_version` concurrency token
