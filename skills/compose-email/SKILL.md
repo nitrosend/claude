@@ -63,17 +63,22 @@ before persistence:
 Alternatively, request server-side authoring via the returned metered
 `composition_mode: "generate"` call, which composes, validates, and persists one
 draft. Supplying creative fields without a contract returns the intent contract
-instead of silently creating anything. Targeted `section_updates` (exact
-`text_patch` copy fixes, prop/style tweaks) and clones without creative
-overrides do not need recomposition.
+instead of silently creating anything. Only mechanical `section_updates` —
+shallow prop/style tweaks on allowed visual attributes — and clones without
+creative overrides skip recomposition. `text_patch` copy edits are copy
+changes: they enter the composition contract like any other new copy.
 
 ## Create or Update
 
 **New template**: Use `nitro_manage_template` with `sections` array and `subject` (via the composition contract above).
 
-**Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change — prefer `section_updates` for targeted edits.
+**Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change — prefer `section_updates` for targeted edits, and pass `if_version` for optimistic concurrency (the call is rejected if the template version has moved).
 
-**Clone existing**: Use `nitro_manage_template` with `based_on` (source template ID).
+**Clone existing**: Use `nitro_manage_template` with `based_on` (source template ID); creative overrides enter the authoring contract.
+
+Every non-dry-run persistence mutation — create, clone, targeted update, full
+update — requires an `idempotency_key`; contract drafts reuse the stable key
+carried by the returned `next_call`.
 
 Always set a descriptive `name` for the template.
 

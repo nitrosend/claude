@@ -52,8 +52,13 @@ cannot switch.
 
 ## Reconnect As A Different Login
 
-If the target account belongs to a different Nitrosend login, or the browser
-signs in instantly and the user cannot tell which account is active:
+Reconnect only when the target account belongs to a **different Nitrosend
+login**. If the user just cannot tell which account is active (for example the
+browser signed in instantly), that is not a reconnect case: run
+`nitro_get_status`, report the account fields, and switch with
+`nitro_select_account` if needed (see Switch Accounts above).
+
+To connect as a different login:
 
 1. Disconnect Nitrosend from Claude first.
    In Claude Code, inspect the plugin-provided `nitrosend` server from `/mcp`.

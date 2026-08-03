@@ -64,7 +64,7 @@ enabled:
 | `nitro_manage_billing` | Plan status, checkout, and upgrades |
 | `nitro_request_support` | Submit support request to Nitrosend team |
 | `nitro_inbox` | Early access: read the agent inbox queue and mailbox threads |
-| `nitro_inbox_action` | Early access: act on inbox items — check replies with `dry_run: true` and `send_reply_test` before `send_reply`; reply commands need the current `reply_context_digest` and an `idempotency_key` |
+| `nitro_inbox_action` | Early access: act on inbox items — every action command requires an `idempotency_key`; check replies with `dry_run: true` and `send_reply_test` before `send_reply`, and reply commands also need the current `reply_context_digest` |
 | `nitro_manage_outreach` | Early access: person-first outreach discovery (intent → estimate → start); `start` requires the estimate's `maximum_spend_cents` authorization and a stable `idempotency_key` — not a cold-email sender |
 
 The three early-access tools are capability-gated and appear only on accounts

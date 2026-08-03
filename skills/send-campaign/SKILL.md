@@ -72,8 +72,11 @@ Report any failed checks and help fix them.
 
 Ask: send now or schedule for later?
 
-- **Send now**: `nitro_control_delivery` with `operation: "live"` and `confirm_send_to_all: true` only when the audience is `all_contacts`
+- **Send now**: `nitro_control_delivery` with `operation: "live"`
 - **Schedule**: `nitro_control_delivery` with `operation: "schedule"` and `scheduled_at` (ISO 8601)
+
+For an `all_contacts` audience, both `live` and `schedule` require
+`confirm_send_to_all: true` — an explicit all-subscribed-contacts confirmation.
 
 ### Optimal Send Times (from Email Marketing Bible)
 - **B2B**: Tuesday-Thursday, 9-11am recipient's timezone
