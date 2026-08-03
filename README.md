@@ -46,17 +46,46 @@ This confirms the active Nitrosend account and current onboarding state.
 
 ## What's Included
 
-### Nitrosend MCP Tools (23)
+### Nitrosend MCP Tools (28)
 
-The plugin bundles the full Nitrosend remote MCP surface:
+The plugin bundles the full Nitrosend remote MCP surface — 28 registered tools.
+Three early-access tools are capability-gated and appear only on accounts with
+the feature enabled.
 
-- **Template management**: Create, update, clone, review, and test reusable email templates
-- **Campaign management**: Create, target, approve, send, and schedule campaigns
-- **Automation flows**: Build trigger-based email/SMS sequences with waits, splits, and webhooks
-- **Transactional email**: Send receipts, OTPs, confirmations — immediate, single-recipient
-- **Contact management**: Import, segment, tag, list management
-- **Analytics**: Account-wide and per-entity insights with trends and benchmarks
-- **Account management**: Brand Kit setup, domain verification, sender config, providers, billing, support
+- **Status & docs**: `nitro_get_status` (account health, onboarding state),
+  `nitro_search_docs` (authoritative product documentation search)
+- **Account & brand**: `nitro_select_account` (switch accounts on OAuth
+  connections), `nitro_select_brand`, `nitro_set_brand_kit` (brand identity from
+  URL or manual), `nitro_configure_account` (sender defaults, reply-to, test
+  recipients)
+- **Template management**: `nitro_manage_template` — create, update, clone
+  reusable email templates with section-based design
+- **Campaign management**: `nitro_compose_campaign` — email or SMS campaign
+  drafts with audience targeting
+- **Automation flows**: `nitro_compose_flow` — trigger-based email/SMS sequences
+  with waits, splits, and webhooks
+- **Review & delivery**: `nitro_review_delivery` (validation and readiness),
+  `nitro_send_test_message` (real test sends), `nitro_control_delivery`
+  (approve, go live, pause, schedule)
+- **Transactional email**: `nitro_send_message` — receipts, OTPs, confirmations;
+  immediate, single-recipient
+- **Contact management**: `nitro_import_contacts` (bulk import),
+  `nitro_manage_audience` (contacts, lists, events, tags),
+  `nitro_define_segment` (filtered segments with preview),
+  `nitro_search_contacts`, `nitro_query` (campaigns, flows, templates, lists,
+  and other entities)
+- **Assets**: `nitro_ingest` — host images on Nitrosend storage for use in email
+  designs
+- **Analytics**: `nitro_get_insights` — account-wide and per-entity insights
+  with trends and benchmarks
+- **Agent inbox** (early access): `nitro_inbox` (read the agent queue and
+  mailbox), `nitro_inbox_action` (reply, mark handled, escalate to a human)
+- **Outreach discovery** (early access): `nitro_manage_outreach` — plan and
+  operate person-first outreach discovery with bounded spend
+- **Domains & providers**: `nitro_manage_domains` (add, verify, list sending
+  domains), `nitro_configure_providers` (BYO Mailgun/SES)
+- **Billing, support & memory**: `nitro_manage_billing`, `nitro_request_support`,
+  `nitro_set_memory` (persistent AI context)
 
 ### Skills
 
@@ -76,7 +105,7 @@ The plugin bundles the full Nitrosend remote MCP surface:
 An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools.
 
 - Proactive best-practice suggestions backed by industry benchmarks
-- Knows all 23 Nitrosend MCP tools and when to use each
+- Knows all 28 Nitrosend MCP tools and when to use each
 - Covers strategy, copywriting, deliverability, compliance, and 19 industry playbooks
 - Persistent memory across sessions
 

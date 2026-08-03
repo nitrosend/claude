@@ -35,10 +35,25 @@ and calling `nitro_get_status`.
 4. After the browser flow returns, verify the connection by calling
    `nitro_get_status`.
 
-## Reconnect Or Switch Accounts
+## Switch Accounts
 
-If the browser signs in instantly and the user cannot tell which account is
-active:
+For OAuth connections, switching between accounts already available to the
+signed-in login does not require reconnecting:
+
+1. Call `nitro_get_status` and read the account ids from
+   `available_accounts.items[*].id`.
+2. Call `nitro_select_account` with the target `account_id`. The switch takes
+   effect on the next tool call and lands on that account's default brand.
+3. Call `nitro_get_status` again to confirm, then `nitro_select_brand` if a
+   non-default brand is needed.
+
+Credential-authenticated (API key) connections are pinned to one account and
+cannot switch.
+
+## Reconnect As A Different Login
+
+If the target account belongs to a different Nitrosend login, or the browser
+signs in instantly and the user cannot tell which account is active:
 
 1. Disconnect Nitrosend from Claude first.
    In Claude Code, inspect the plugin-provided `nitrosend` server from `/mcp`.
