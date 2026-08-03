@@ -62,7 +62,7 @@ nested paths like `{{ data.customer.name }}`.
 | CAN-SPAM footer | Required | Skipped |
 | Unsubscribe link | Required | Not needed |
 | Delivery | Campaign workflow | Immediate |
-| Tracking | Opens/clicks tracked | Optional |
+| Tracking | Opens/clicks tracked | Opens/clicks tracked (engagement tracking stays enabled) |
 
 Do not model transactional sends as MCP flows. Use `nitro_send_message` for one-off MCP sends, normal flow email steps for lifecycle automation, and API/SDK transactional sends for application events.
 

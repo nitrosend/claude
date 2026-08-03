@@ -24,7 +24,8 @@ For a local CSV, `nitro_import_contacts` runs a three-step upload:
 
 1. Call it with `upload: {filename, content_type, byte_size, checksum}` to
    reserve an authorized upload link
-2. PUT the file bytes to the returned `direct_upload.url`
+2. PUT the file bytes to the returned `direct_upload.url`, sending exactly the
+   returned `direct_upload.headers`
 3. Call `nitro_import_contacts` again with the returned `signed_id` (plus a
    `columns` mapping) to finalize; an existing `import_id` can also be processed
 
