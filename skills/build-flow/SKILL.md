@@ -35,7 +35,7 @@ Ask what kind of flow they need. Common patterns:
 | `email` | `subject` + (`design` or `body`) | Design uses `{sections, theme}` |
 | `sms` | `body` | SMS text content |
 | `wait` | `duration` (seconds) | 3600=1hr, 86400=1day, 604800=1week |
-| `split` | `filters`, `yes` steps, `no` steps | Conditional branching. NO nested splits. |
+| `split` | `filters`, `yes` steps, `no` steps | Conditional branching; splits may nest inside `yes`/`no` branches |
 | `emit_event` | `event_name` | Fire event to trigger other flows |
 | `webhook` | `url` | POST or PUT to external URL |
 | `subscribe` | `channel` (phone/email/all) | Opt contact in |
@@ -70,11 +70,14 @@ Offer `dry_run: true` first to preview the flow graph.
 
 **Composition contract**: any newly authored email step enters the contract
 before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`
-to get the brand, memory, lifecycle, source, binding, and design context, author
-the steps against it (optionally validate without persistence), then persist
-with `composition_mode: "draft"` — or use the returned metered
-`composition_mode: "generate"` call for server-side authoring. SMS-only flows
-and rename-only patches do not need email authoring context.
+— the response includes the brand, memory, lifecycle, source, binding, and
+design context plus a `next_call` scaffold. Fill `next_call` and send it back,
+preserving its contract and idempotency fields, optionally with
+`composition_mode: "validate"` first, then persist with
+`composition_mode: "draft"` — or use the returned metered
+`optional_server_authoring_call` (`composition_mode: "generate"`) for
+server-side authoring. SMS-only flows and rename-only patches do not need email
+authoring context.
 
 ## Review and Approve
 

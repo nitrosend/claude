@@ -35,17 +35,23 @@ body: "Thank you for your order..."
 
 ### Branded Template
 For on-brand transactional emails:
-1. Create a template with `nitro_manage_template` using sections
+1. Create a template with `nitro_manage_template` via the composition contract
+   (`composition_mode: "intent"` → fill the returned `next_call` → persist with
+   `composition_mode: "draft"`; see the compose-email skill)
 2. For a one-off MCP send, call `nitro_send_message` with `template_id`
 3. For application-triggered production sends, wire `POST /v1/my/messages` or `ns.messages.send` using `template_id`
+
+Live sends require an `idempotency_key` — reuse the same stable key on retry to
+prevent duplicate delivery.
 
 ### Merge Variables
 Use the `data` field for personalization:
 ```
-data: { order_id: "1234", name: "Alice", amount: "$49.99" }
+data: { order_id: "1234", customer: { name: "Alice" }, amount: "$49.99" }
 ```
 
-Reference in templates/body as `{{ order_id }}`, `{{ name }}`, etc.
+Reference in templates/body as `{{ data.order_id }}`, `{{ data.amount }}`, or
+nested paths like `{{ data.customer.name }}`.
 
 ## Key Differences from Marketing Email
 

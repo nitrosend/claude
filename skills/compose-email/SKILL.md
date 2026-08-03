@@ -52,9 +52,11 @@ Build the email using sections. Available section types:
 Newly authored copy or full sections always enter the composition contract
 before persistence:
 
-1. Call `nitro_manage_template` with `composition_mode: "intent"` — it returns
-   the current brand, memory, source, binding, and design context
-2. Author the sections against that contract; optionally check them with
+1. Call `nitro_manage_template` with `composition_mode: "intent"` — the
+   response includes the current brand, memory, source, binding, and design
+   context plus a `next_call` scaffold
+2. Fill `next_call` with your authored sections and send it back, preserving
+   its contract and idempotency fields; optionally check it first with
    `composition_mode: "validate"` (no persistence)
 3. Persist with `composition_mode: "draft"`
 
