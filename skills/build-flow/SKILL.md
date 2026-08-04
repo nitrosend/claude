@@ -35,7 +35,7 @@ Ask what kind of flow they need. Common patterns:
 | `email` | `subject` + (`design` or `body`) | Design uses `{sections, theme}` |
 | `sms` | `body` | SMS text content |
 | `wait` | `duration` (seconds) | 3600=1hr, 86400=1day, 604800=1week |
-| `split` | `filters`, `yes` steps, `no` steps | Conditional branching. NO nested splits. |
+| `split` | `filters`, `yes` steps, `no` steps | Conditional branching; splits may nest inside `yes`/`no` branches |
 | `emit_event` | `event_name` | Fire event to trigger other flows |
 | `webhook` | `url` | POST or PUT to external URL |
 | `subscribe` | `channel` (phone/email/all) | Opt contact in |
@@ -68,18 +68,43 @@ Use `nitro_compose_flow` with:
 
 Offer `dry_run: true` first to preview the flow graph.
 
+**Composition contract**: any newly authored email step enters the contract
+before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`
+— the response includes the brand, memory, lifecycle, source, binding, and
+design context plus a `next_call` scaffold. Fill `next_call` and send it back,
+preserving its contract and idempotency fields, optionally with
+`composition_mode: "validate"` first, then persist with
+`composition_mode: "draft"` — or use the returned metered
+`optional_server_authoring_call` (`composition_mode: "generate"`) for
+server-side authoring. SMS-only flows and rename-only patches do not need email
+authoring context.
+
 ## Review and Approve
 
 1. Show the dry-run preview (node types and connections)
 2. Get user approval on the flow design
 3. Create for real (without dry_run)
-4. Approve: `nitro_control_delivery` with `target_type: "flow"`, `operation: "approve"`
-5. Go live: `nitro_control_delivery` with `operation: "live"`
+4. Review: `nitro_review_delivery` with `target_type: "flow"`, `target_id`, and
+   the exact current `revision_id` (flow reviews require it)
+5. Approve: `nitro_control_delivery` with `target_type: "flow"`,
+   `operation: "approve"`, and the exact current draft `revision_id`
+6. Go live: `nitro_control_delivery` with `operation: "live"` and `revision_id`
+
+Flow `approve`, `reject`, and `live` all require the exact current draft
+`revision_id`; `pause`/`resume` omit it, and `resume` never publishes a draft.
 
 ## Modify Existing Flows
 
 To rebuild an existing flow:
-- Use `nitro_compose_flow` with `mode: "replace"`, `flow_id`, and `confirm: true`
+- Use `nitro_compose_flow` with `mode: "replace"`, `flow_id`, `confirm: true`,
+  `expected_draft_revision_id` (the current draft revision), and a stable
+  `idempotency_key`
 
-To rename only:
-- Use `nitro_compose_flow` with `mode: "patch"` and `flow_id`
+To rename or update selected email actions:
+- Use `nitro_compose_flow` with `mode: "patch"`, `flow_id`, an
+  `idempotency_key`, targeting email actions by `action_name` + their
+  `if_version` concurrency token
+
+Every non-dry-run persistence mutation (create, rename patch, replace) requires
+an `idempotency_key`; drafts persisted through the composition contract reuse
+the stable key supplied by the returned `next_call`.

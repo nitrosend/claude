@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.1.0 (2026-08-03)
+
+### Improvements
+
+- Documented the full 28-tool registered MCP surface (was 23): added `nitro_inbox`, `nitro_inbox_action`, `nitro_ingest`, `nitro_manage_outreach`, `nitro_search_docs`, and `nitro_select_account`
+- Marked the capability-gated early-access tools (`nitro_inbox`, `nitro_inbox_action`, `nitro_manage_outreach`) — they appear only on accounts with the feature enabled
+- Documented the composition contract now enforced by the compose tools (`composition_mode: "intent"` → optional `"validate"` → `"draft"`, or metered `"generate"`) in the compose-email, send-campaign, and build-flow skills and the email-marketer agent
+- Added `nitro_select_account` switching guidance (setup skill + SETUP.md) and `nitro_search_docs` as the authoritative product-docs lookup
+- Added `nitro_ingest` image-hosting guidance (base64 for small images, direct-upload reservation for larger files, hosted URL into the `image` section `src`)
+- Extended the email-marketer agent tool table to all 28 tools
+
+### Fixes
+
+- Corrected the stale CLAUDE.md note that still described the removed SessionStart auto-status hook
+- Corrected the "Knows all 23 Nitrosend MCP tools" claim to 28
+
 ## 2.0.0 (2026-04-20)
 
 ### Breaking Changes

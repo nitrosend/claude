@@ -25,6 +25,21 @@ For email, choose design approach:
 
 Use `nitro_compose_campaign` with the chosen approach.
 
+**Composition contract**: newly authored email copy or design always enters the
+contract before persistence. Call `nitro_compose_campaign` with
+`composition_mode: "intent"` — the response includes the current brand, memory,
+source, binding, and design context plus a `next_call` scaffold. Fill
+`next_call` and send it back, preserving its contract and idempotency fields
+(optionally `composition_mode: "validate"` first), then persist with
+`composition_mode: "draft"` — or use the returned metered
+`optional_server_authoring_call` (`composition_mode: "generate"`) for
+server-side authoring.
+Supplying creative fields without a contract returns the intent contract instead
+of creating the campaign. Cloning a template without creative overrides, plain
+operational edits, and `dry_run` previews skip recomposition. Preserve explicit
+user constraints verbatim: exact copy, URLs, offers, sender fields, audience,
+schedule, and legal text.
+
 ## Step 2: Target Audience
 
 Ask who should receive this:
@@ -37,7 +52,7 @@ If they need a new segment, use `nitro_define_segment` to create one with filter
 ## Step 3: Preview and Test
 
 1. Review: `nitro_review_delivery` with `target_type: "campaign"` and `target_id` for validation, readiness, and delivery context
-2. Test send: `nitro_send_test_message` with `target_type: "campaign"` and `target_id`
+2. Test send: `nitro_send_test_message` with `target_type: "campaign"`, `target_id`, and an `idempotency_key` (reuse the same key on retry to avoid duplicates)
 3. Share preview results and ask for approval
 
 ## Step 4: Approve
@@ -57,8 +72,11 @@ Report any failed checks and help fix them.
 
 Ask: send now or schedule for later?
 
-- **Send now**: `nitro_control_delivery` with `operation: "live"` and `confirm_send_to_all: true` only when the audience is `all_contacts`
+- **Send now**: `nitro_control_delivery` with `operation: "live"`
 - **Schedule**: `nitro_control_delivery` with `operation: "schedule"` and `scheduled_at` (ISO 8601)
+
+For an `all_contacts` audience, both `live` and `schedule` require
+`confirm_send_to_all: true` — an explicit all-subscribed-contacts confirmation.
 
 ### Optimal Send Times (from Email Marketing Bible)
 - **B2B**: Tuesday-Thursday, 9-11am recipient's timezone

@@ -15,8 +15,23 @@ Help the user import contacts into Nitrosend.
 
 Ask where contacts are coming from:
 - **Inline records**: User provides names/emails directly (up to 100 at a time)
-- **CSV file**: Reference a pre-uploaded CSV import
+- **CSV file**: Upload a local CSV through the direct-upload path (below)
 - **One by one**: Use `nitro_manage_audience` with `operation: "create_contact"` for individual contacts
+
+## CSV Import (direct upload)
+
+For a local CSV, `nitro_import_contacts` runs a three-step upload:
+
+1. Call it with `upload: {filename, content_type, byte_size, checksum}` to
+   reserve an authorized upload link
+2. PUT the file bytes to the returned `direct_upload.url`, sending exactly the
+   returned `direct_upload.headers`
+3. Call `nitro_import_contacts` again with the returned `signed_id` (plus a
+   `columns` mapping) to finalize; an existing `import_id` can also be processed
+
+Large CSVs use the same async pipeline as the app/API/CLI: up to 250k rows
+self-serve, sends held for review above 20k rows, larger files return
+`contact_sales`.
 
 ## Inline Import (< 100 contacts)
 
@@ -32,7 +47,8 @@ Use `nitro_import_contacts` with `records` array:
 ```
 
 ### Important Rules
-- **Email contacts**: Auto-subscribed by default (`opt_in: true` implied)
+- **Email contacts**: New contacts are auto-subscribed by default; existing
+  contacts keep their current subscription state unless `opt_in` is explicit
 - **SMS contacts**: Must explicitly set `opt_in: true` (TCPA compliance)
 - **Both channels**: Include both `email` and `phone` fields
 - **Source tracking**: Set `source` to track where contacts came from
