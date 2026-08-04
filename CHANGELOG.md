@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2 (2026-08-04)
+
+- Made the intent scaffold and `nitro://schema` authoritative for the complete
+  email-section registry, preventing the compose skill's illustrative patterns
+  from becoming a stale exhaustive schema.
+
 ## 2.1.1 (2026-08-04)
 
 - Made the live production MCP catalog and schemas authoritative throughout the

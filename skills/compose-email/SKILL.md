@@ -24,7 +24,9 @@ Ask what the email is for:
 
 ## Design the Email
 
-Build the email using sections. Available section types:
+The complete section registry and prop schemas returned by the intent scaffold
+or `nitro://schema` are authoritative. Do not reconstruct that registry from
+this skill. Illustrative section patterns include:
 
 | Section | Key Props |
 |---------|-----------|
@@ -33,7 +35,10 @@ Build the email using sections. Available section types:
 | `image` | `src`, `alt`, `href`, `width` |
 | `button` | `text`, `href`, `background_color`, `text_color`, `align`, `border_radius` |
 | `columns` | `columns: [{width, sections: [...]}]` — nested sections |
+| `hero` | Use the exact props returned by the live schema |
 | `product` | `name`, `price`, `image_url`, `href`, `description` |
+| `products` | Use the exact collection props returned by the live schema |
+| `gallery` | Use the exact image-list props returned by the live schema |
 | `social` | `links: [{platform, url}]`, `align` |
 | `divider` | `color`, `width`, `padding` |
 | `spacer` | `height` |
