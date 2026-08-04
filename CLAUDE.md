@@ -2,18 +2,22 @@
 
 ## Conventions
 
-- Conventional Commits: `type(scope): description`
-- Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
-- Scopes: `plugin`, `skill`, `agent`, `hook`, `mcp`
-- No co-authored-by or AI trailers in commits
-- Skills use YAML frontmatter with `name` and `description` fields
-- Agent definitions use YAML frontmatter per Claude Code subagent spec
+- Use Conventional Commits with the scopes `plugin`, `skill`, `agent`, `hook`,
+  or `mcp`.
+- Do not add co-authored-by or AI trailers.
+- Skills and agents use valid YAML frontmatter.
+- Treat the tool catalog and schemas returned by the production MCP session as
+  authoritative. Do not hardcode a tool count or offer unavailable tools.
+- Treat `nitro_search_docs` output as the authority for product details not
+  established by the live tool contract.
+- Document only the current client and transport behavior. Git history is the
+  release-history archive.
 
 ## Structure
 
-- `.claude-plugin/plugin.json` — manifest (name, version, metadata)
-- `.mcp.json` — remote Nitrosend MCP server definition for `https://api.nitrosend.com/mcp`
-- `SETUP.md` — guided OAuth setup and reconnect instructions for the bundled MCP server
-- `hooks/hooks.json` — empty; the SessionStart auto-status hook was removed in the remote-MCP cutover
-- `agents/` — email-marketer agent definition
-- `skills/` — 8 skills (setup, compose-email, send-campaign, send-transactional, build-flow, import-contacts, analytics, email-marketing-bible)
+- `.claude-plugin/plugin.json` — plugin manifest
+- `.mcp.json` — production remote MCP server definition
+- `SETUP.md` — OAuth setup, account selection, and troubleshooting
+- `hooks/hooks.json` — plugin hook configuration
+- `agents/` — plugin agent definitions
+- `skills/` — guided Nitrosend workflows

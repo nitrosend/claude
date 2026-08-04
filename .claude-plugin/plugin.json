@@ -1,6 +1,6 @@
 {
   "name": "nitrosend",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Remote Nitrosend MCP plugin for Claude. Connect with OAuth to compose newsletters, build flows, manage contacts, and send campaigns.",
   "author": {
     "name": "Nitrosend",

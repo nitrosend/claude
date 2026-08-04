@@ -43,21 +43,17 @@ Ask what kind of flow they need. Common patterns:
 
 ### Split Filters
 
-Available filter names for splits:
-- `contact_first_name`, `contact_last_name`, `contact_email`, `contact_phone_number`
-- `contact_country`, `contact_source`, `contact_tag`
-- `contact_subscribed_email`, `contact_subscribed_phone`
-- `contact_created_at`, `contact_last_interacted_at`
-- `contact_verified`, `contact_enriched`
+Use the filter schema returned by the intent response or `nitro://schema`; do
+not assume this document is an exhaustive registry. Common current filters
+include contact identity and subscription fields, tags and lists, creation and
+interaction timestamps, delivery/engagement metrics such as
+`contact_last_opened_at` and `contact_last_clicked_at`, event history, and
+custom or enrichment fields. Use only names and predicates accepted by the live
+schema.
 
-Predicates: `eq`, `not_eq`, `cont`, `not_cont`, `present`, `blank`, `true`, `false`, `gt`, `lt`, `in`, `not_in`
-
-### Best Practices (from Email Marketing Bible)
-- **Welcome flows**: Send first email within minutes. 74% of subscribers expect it.
-- **Cart abandonment**: First email at 1 hour. 50% conversion happens in first email.
-- **Wait times**: Space emails 1-3 days apart. Don't overwhelm.
-- **Splits**: Use engagement-based splits (opened, clicked) to tailor follow-ups.
-- **Unsubscribe step**: Add at end of win-back flows for contacts who don't re-engage.
+Prefer behavior-based branches when the necessary evidence exists. Keep waits
+and message frequency proportionate to the user's audience and test the cadence
+against account performance rather than asserting universal timings.
 
 ## Create the Flow
 
@@ -69,15 +65,22 @@ Use `nitro_compose_flow` with:
 Offer `dry_run: true` first to preview the flow graph.
 
 **Composition contract**: any newly authored email step enters the contract
-before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`
-— the response includes the brand, memory, lifecycle, source, binding, and
-design context plus a `next_call` scaffold. Fill `next_call` and send it back,
-preserving its contract and idempotency fields, optionally with
-`composition_mode: "validate"` first, then persist with
-`composition_mode: "draft"` — or use the returned metered
-`optional_server_authoring_call` (`composition_mode: "generate"`) for
-server-side authoring. SMS-only flows and rename-only patches do not need email
-authoring context.
+before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`.
+Treat `next_call.input` as the selected complete baseline for the flow and its
+email steps; preserve and fill it by default. Use the compact
+`composition_contract.creative_routes` menu and start a fresh intent with
+`creative_route_id` to select another ready route. If that route lacks frozen
+evidence, obtain the exact reported facts. Never fall back silently or invent
+evidence.
+
+For image-led routes, follow `next_call.image_choice` and supply an exact image
+URL plus an accurate description. Preserve all contract, binding, user
+constraint, and idempotency fields. Optionally validate, then persist with
+`composition_mode: "draft"`; full section authoring is an intentional escape
+hatch. The returned metered `optional_server_authoring_call`
+(`composition_mode: "generate"`) may instead author, validate, and persist one
+draft. SMS-only flows and rename-only patches do not need email authoring
+context.
 
 ## Review and Approve
 

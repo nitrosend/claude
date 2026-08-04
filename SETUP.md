@@ -1,110 +1,47 @@
 # Nitrosend Setup
 
-Use this guide whenever the Nitrosend plugin is installed but not yet connected,
-or when the user needs to verify which Nitrosend account Claude is currently
-using.
+This plugin uses the production remote MCP server at
+`https://api.nitrosend.com/mcp`. Browser OAuth is the default connection path
+for Claude Code, Claude Desktop, Claude.ai, and Cowork.
 
-## What This Plugin Does
+Do not direct those users to a terminal CLI or an API key. Those are separate
+terminal, CI, and headless-runner surfaces.
 
-The plugin bundles Nitrosend as a remote MCP server at
-`https://api.nitrosend.com/mcp`. Connection is OAuth-based. Do not steer the
-user toward the deprecated local bridge or an environment-variable API-key flow
-as the default setup path for this plugin.
+## Connect
 
-## Surface Selection
+1. Enable or locally load the plugin.
+2. Open the client's MCP or connectors UI and select `nitrosend`.
+3. Complete browser sign-in and approve access for the intended Nitrosend
+   login.
+4. Call `nitro_get_status`.
+5. Confirm the returned account and brand before changing state.
 
-For Claude Desktop, Claude.ai, Claude Cowork, and the Nitrosend Claude plugin,
-the setup path is always the remote MCP connector. Do not recommend installing
-`@nitrosend/cli`, running `nitrosend login`, or asking for an API key when the
-user is trying to connect Nitrosend inside Claude.
+## Switch Account or Brand
 
-The CLI is for a user's own terminal, CI jobs, and agent runners with real shell
-and network access. Claude command sandboxes may block outbound access to
-`api.nitrosend.com`, so CLI dogfooding from inside Claude is not a reliable
-Claude Desktop setup test. Verify Claude Desktop by connecting the MCP server
-and calling `nitro_get_status`.
+An OAuth session can switch among accounts accessible to the signed-in user:
 
-## First-Time Connect
+1. Read `available_accounts.items` from `nitro_get_status`.
+2. Call `nitro_select_account` with the chosen `account_id`.
+3. Call `nitro_get_status` again; the switch applies on that next call.
+4. If needed, choose a non-default brand with `nitro_select_brand`.
 
-1. Confirm the plugin is enabled.
-2. If Claude reports that Nitrosend is not connected, direct the user to open
-   the MCP/connectors UI for their Claude client and select the bundled
-   `nitrosend` server.
-3. Tell the user to complete the browser sign-in flow and approve the requested
-   access for the intended Nitrosend account.
-4. After the browser flow returns, verify the connection by calling
-   `nitro_get_status`.
+An API-key MCP connection is pinned to its account and cannot switch accounts.
 
-## Switch Accounts
+Reconnect only when the required account belongs to a different Nitrosend
+login. Disconnect `nitrosend` in the client's MCP/connectors UI, sign out of
+the browser session used for OAuth, reconnect, and verify with
+`nitro_get_status`.
 
-For OAuth connections, switching between accounts already available to the
-signed-in login does not require reconnecting:
+## Troubleshoot
 
-1. Call `nitro_get_status` and read the account ids from
-   `available_accounts.items[*].id`.
-2. Call `nitro_select_account` with the target `account_id`. The switch takes
-   effect on the next tool call and lands on that account's default brand.
-3. Call `nitro_get_status` again to confirm, then `nitro_select_brand` if a
-   non-default brand is needed.
+Before escalating, establish the exact failure point:
 
-Credential-authenticated (API key) connections are pinned to one account and
-cannot switch.
+1. Confirm `https://api.nitrosend.com/mcp` is reachable.
+2. Confirm the browser OAuth flow completed and returned to Claude.
+3. Confirm the client supports current remote MCP connections.
+4. Reopen the MCP/connectors UI and inspect the `nitrosend` connection state.
+5. If connected, call `nitro_get_status` and report its structured error rather
+   than guessing about credentials or account state.
 
-## Reconnect As A Different Login
-
-Reconnect only when the target account belongs to a **different Nitrosend
-login**. If the user just cannot tell which account is active (for example the
-browser signed in instantly), that is not a reconnect case: run
-`nitro_get_status`, report the account fields, and switch with
-`nitro_select_account` if needed (see Switch Accounts above).
-
-To connect as a different login:
-
-1. Disconnect Nitrosend from Claude first.
-   In Claude Code, inspect the plugin-provided `nitrosend` server from `/mcp`.
-   In Claude web or Cowork, use Customize -> Connectors.
-2. Log out of Nitrosend in the browser session that Claude opens for OAuth.
-3. Start the connection flow again.
-4. Immediately verify the active account by calling `nitro_get_status` and
-   reporting the returned account and brand details back to the user.
-
-## Verification
-
-After connect or reconnect:
-
-1. Run `nitro_get_status`.
-2. Confirm the account is healthy enough to proceed.
-3. If the user is checking account selection, summarize the identifying account
-   fields from the tool result instead of saying only "connected".
-
-## If Connection Fails
-
-Check the following before escalating:
-
-1. `https://api.nitrosend.com/mcp` is reachable.
-2. The user completed the OAuth browser flow without cancelling.
-3. The user is connecting to a public Nitrosend environment, not a local or
-   private endpoint.
-4. Claude is using a build that supports remote MCP connections.
-
-If the server is reachable but auth still fails, capture the exact failure point
-and whether the flow returned to Claude after the browser step.
-
-## Older Claude Code Builds
-
-If the local Claude Code build has `claude mcp` but does not expose `/plugin`,
-update Claude Code before treating the plugin lane as fully validated.
-
-As a fallback sanity check for the remote transport, this command path is
-available on older builds:
-
-```bash
-claude mcp add-json nitrosend-dev '{"type":"http","url":"https://api.nitrosend.com/mcp"}' --scope local
-claude mcp get nitrosend-dev
-claude mcp remove nitrosend-dev --scope local
-```
-
-On the local `1.0.119` environment used during this cutover, `add-json`
-reported success but `get` and `list` did not reliably surface the local-scope
-entry back. Use a current Claude Code build for the real plugin-manager smoke
-test.
+Use `nitro_search_docs` for Nitrosend product behavior not established by the
+live tool descriptions or the current status response.

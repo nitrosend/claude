@@ -37,28 +37,33 @@ Build the email using sections. Available section types:
 | `social` | `links: [{platform, url}]`, `align` |
 | `divider` | `color`, `width`, `padding` |
 | `spacer` | `height` |
-| `footer` | `company_name`, `address`, `unsubscribe_text` |
+| `footer` | `unsubscribe_text` (optional override) |
 
-### Best Practices (from Email Marketing Bible)
-- **Subject line**: 30-50 characters, 6-10 words. Front-load the value.
-- **Preheader**: Complement the subject, don't repeat it. 40-130 characters.
-- **Mobile-first**: 60%+ opens are on mobile. Single-column layouts work best.
-- **One primary CTA**: Make it obvious. Use a button, not a text link.
-- **Dark mode**: Use transparent PNGs for logos, avoid pure white backgrounds.
-- **Footer**: Always include company name, physical address, and unsubscribe link.
+### Durable Design Guidance
+
+- Front-load the subject's value and make the preheader complementary.
+- Prefer a clear hierarchy and one primary action.
+- Design mobile-first, use readable type, descriptive alt text, and adequate
+  contrast.
+- Include a footer. Nitrosend supplies the active Brand's canonical legal
+  identity and unsubscribe URL.
 
 ## Composition Contract
 
 Newly authored copy or full sections always enter the composition contract
 before persistence:
 
-1. Call `nitro_manage_template` with `composition_mode: "intent"` — the
-   response includes the current brand, memory, source, binding, and design
-   context plus a `next_call` scaffold
-2. Fill `next_call` with your authored sections and send it back, preserving
-   its contract and idempotency fields; optionally check it first with
-   `composition_mode: "validate"` (no persistence)
-3. Persist with `composition_mode: "draft"`
+1. Call `nitro_manage_template` with `composition_mode: "intent"` and the
+   user's goal and constraints.
+2. Treat `next_call.input` as the selected complete baseline. Preserve its
+   structure and fill it rather than replacing it with a smaller handcrafted
+   layout. `composition_contract.creative_routes` is the route menu.
+3. To use a different ready route, start a fresh intent with its
+   `creative_route_id`. If a route reports missing evidence, obtain exactly
+   those facts; never substitute another route or invent evidence.
+4. Author inside the returned scaffold while preserving the contract,
+   bindings, exact user constraints, and idempotency fields. Optionally call
+   `composition_mode: "validate"`; persist with `composition_mode: "draft"`.
 
 Alternatively, request server-side authoring via the returned metered
 `composition_mode: "generate"` call, which composes, validates, and persists one
@@ -67,6 +72,13 @@ instead of silently creating anything. Only mechanical `section_updates` —
 shallow prop/style tweaks on allowed visual attributes — and clones without
 creative overrides skip recomposition. `text_patch` copy edits are copy
 changes: they enter the composition contract like any other new copy.
+
+Full section authoring is an intentional escape hatch, not the default. For an
+image-led route, follow `next_call.image_choice`. Use a described Brand Library
+asset or exact operator asset when available. Otherwise obtain a verified
+vendor, generated, or public stock asset, ingest it when needed, and reissue the
+intent with the exact `image_url` plus an accurate statement of what it shows.
+Brand memory can guide selection but cannot prove an image URL or its contents.
 
 ## Create or Update
 
@@ -94,6 +106,11 @@ Host images on Nitrosend storage with `nitro_ingest` (V1 is image-only):
 - Public remote image URLs: use directly in sections when permanence is not
   needed, or pass as `image_url` for a Nitrosend-hosted copy
 
+Always pass an accurate `description` to `nitro_ingest`; it is retained with
+the Brand Library asset and used as alt-text context. `image_data` accepts PNG,
+JPEG, or WebP under the live tool's decoded-size limit. Direct upload checksum
+is base64-encoded MD5.
+
 The returned hosted URL (`media_url`/`image_url`) is what goes into the `image`
 section's `src` — never place a `signed_id` directly in sections.
 
@@ -106,7 +123,10 @@ After creating/updating:
 
 ## Merge Tags
 
-Available personalization variables:
-- `{{ first_name }}`, `{{ last_name }}`, `{{ email }}`
+Use canonical personalization variables:
+
+- `{{ contact.first_name }}`, `{{ contact.last_name }}`, `{{ contact.email }}`
 - `{{ unsubscribe_url }}` — required in marketing emails
-- Custom event data fields when used in flows
+- `{{ event.* }}` for flow-event values allowed by the returned composition
+  bindings
+- `{{ data.* }}` only where the returned composition contract permits it

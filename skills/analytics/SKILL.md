@@ -1,73 +1,61 @@
 ---
 name: analytics
 description: >
-  Email analytics, performance insights, and benchmarking. View account-wide
-  metrics, campaign performance, flow analytics, and get AI-powered
-  recommendations based on email marketing best practices. Use when:
-  "email analytics", "campaign performance", "how are my emails doing",
-  "email insights", "check my stats", "open rate", or "deliverability report".
+  Inspect Nitrosend account, campaign, flow, or message performance and turn
+  live metrics into bounded recommendations. Use when: "email analytics",
+  "campaign performance", "how are my emails doing", "email insights",
+  "check my stats", "open rate", or "deliverability report".
 ---
 
 # Analytics
 
-Provide email analytics and actionable insights using Nitrosend data and email marketing benchmarks.
+Use live Nitrosend data as the source of truth. Do not apply fixed global
+"good", "warning", or "critical" thresholds from this skill.
 
-## Account Overview
+## Select Scope
 
-Start with `nitro_get_insights` with `scope: "account"` to get the big picture:
-- Total emails sent, opens, clicks, unsubscribes, complaints
-- Trends (direction: up/down/flat, first half vs second half comparison)
-- Benchmarks comparison
-- AI recommendations
+- Account overview: `nitro_get_insights` with `scope: "account"`
+- Campaign: `scope: "campaign"` plus `entity_id`
+- Flow: `scope: "flow"` plus `entity_id`
+- Individual message and events: `scope: "message"` plus `entity_id`
 
-## Campaign Performance
+Supported periods for account, campaign, and flow insights are `7d`, `30d`, and
+`90d`.
 
-For specific campaigns, use `nitro_get_insights` with `scope: "campaign"` and `entity_id`.
+## Interpret Responsibly
 
-Key metrics to highlight:
-| Metric | Good | Warning | Critical |
-|--------|------|---------|----------|
-| Open rate | >20% | 10-20% | <10% |
-| Click rate | >3% | 1-3% | <1% |
-| Unsubscribe rate | <0.2% | 0.2-0.5% | >0.5% |
-| Complaint rate | <0.05% | 0.05-0.1% | >0.1% |
+1. Lead with delivery, volume, opens, clicks, unsubscribes, complaints, and the
+   trend data the tool actually returns.
+2. Prefer benchmarks and recommendations returned by `nitro_get_insights`,
+   then compare with the same account's prior period and similar sends.
+3. Treat opens as directional because mailbox privacy features can inflate or
+   obscure them. Give clicks, conversions, replies, complaints, and revenue
+   greater weight when available.
+4. State the sample size and period. Do not call a change meaningful when the
+   evidence is too small or the compared periods differ materially.
+5. Label external industry ranges as contextual, source them freshly, and do
+   not present them as Nitrosend product facts or guarantees.
 
-## Flow Performance
+## Deeper Review
 
-For automation flows, use `nitro_get_insights` with `scope: "flow"` and `entity_id`.
+For a broader account review:
 
-Flow-specific benchmarks:
-| Flow Type | Expected Open Rate | Expected Click Rate |
-|-----------|--------------------|---------------------|
-| Welcome | 50-80% | 15-25% |
-| Cart abandonment | 40-50% | 10-15% |
-| Post-purchase | 40-60% | 10-20% |
-| Win-back | 15-25% | 2-5% |
+1. Pull 30-day and, when useful, 90-day account insights.
+2. Query recent campaigns with `nitro_query` entity `campaigns`.
+3. Query relevant flows using statuses allowed by the live `nitro_query`
+   schema, such as `live` or `paused`.
+4. Inspect audience and deliverability context from `nitro_get_status` and the
+   returned insights rather than deriving unsupported counts.
+5. Prioritize one or two testable changes and define the metric and observation
+   window before recommending a rollout.
 
-## Deep Dive Analysis
+Typical hypotheses include subject or sender clarity for weak opens, content
+hierarchy and CTA clarity for weak clicks, consent/frequency/targeting for
+unsubscribes or complaints, and flow coverage for missed lifecycle moments.
+These are hypotheses to test, not diagnoses from one metric alone.
 
-When doing monthly or comprehensive analysis:
+## Scheduled Reports
 
-1. Pull 30-day or 90-day data: `nitro_get_insights` with `period: "30d"` or `"90d"`
-2. Query recent campaigns: `nitro_query` with entity `"campaigns"`
-3. Query active flows: `nitro_query` with entity `"flows"`, filters `{ status: "active" }`
-4. Check list growth: `nitro_query` with entity `"contacts"` for total count
-5. Check deliverability signals: complaint rate, bounce rate trends
-
-## Recommendations Engine
-
-Based on the data, proactively suggest improvements from the email marketing bible:
-
-- **Low open rates**: Review subject lines (30-50 chars optimal), test send times, check deliverability
-- **Low click rates**: Strengthen CTAs, reduce distractions, ensure mobile-friendly design
-- **High unsubscribes**: Review frequency (2-4 emails/month is typical), improve segmentation
-- **High complaints**: Clean list, add easy unsubscribe, verify opt-in process
-- **Flat growth**: Suggest lead magnet strategies, popup optimization, referral programs
-- **No flows active**: Recommend starting with welcome flow (highest ROI automation)
-
-## Proactive Reporting
-
-If the user has set up scheduled analytics (via `/nitrosend:setup`), these reports run automatically:
-- **Daily**: New subscribers + sending activity
-- **Weekly**: Open/click rates, list growth, deliverability
-- **Monthly**: Full benchmark comparison with specific improvement actions
+Recurring reports run only when a user has configured them through a host that
+actually exposes scheduling. Never imply that installing this plugin creates
+background jobs by itself.

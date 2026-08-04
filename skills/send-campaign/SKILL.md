@@ -27,13 +27,21 @@ Use `nitro_compose_campaign` with the chosen approach.
 
 **Composition contract**: newly authored email copy or design always enters the
 contract before persistence. Call `nitro_compose_campaign` with
-`composition_mode: "intent"` — the response includes the current brand, memory,
-source, binding, and design context plus a `next_call` scaffold. Fill
-`next_call` and send it back, preserving its contract and idempotency fields
-(optionally `composition_mode: "validate"` first), then persist with
-`composition_mode: "draft"` — or use the returned metered
-`optional_server_authoring_call` (`composition_mode: "generate"`) for
-server-side authoring.
+`composition_mode: "intent"`; `next_call.input` is the server-selected complete
+baseline and `composition_contract.creative_routes` is the compact route menu.
+Preserve and fill the baseline by default. To choose another ready route, start
+a fresh intent with its `creative_route_id`. A route that lacks frozen evidence
+returns the exact missing facts; obtain those facts rather than substituting a
+layout or inventing evidence.
+
+Follow `next_call.image_choice` for image-led routes. Reissue intent with an
+exact, verified `image_url` and an accurate description of what the image shows.
+Then fill the returned `next_call`, preserving its contract, bindings, explicit
+user constraints, and idempotency fields. Optionally validate before persisting
+with `composition_mode: "draft"`. Full section authoring is an intentional
+escape hatch. The returned metered `optional_server_authoring_call`
+(`composition_mode: "generate"`) may instead compose, validate, and persist one
+draft.
 Supplying creative fields without a contract returns the intent contract instead
 of creating the campaign. Cloning a template without creative overrides, plain
 operational edits, and `dry_run` previews skip recomposition. Preserve explicit
@@ -78,15 +86,13 @@ Ask: send now or schedule for later?
 For an `all_contacts` audience, both `live` and `schedule` require
 `confirm_send_to_all: true` — an explicit all-subscribed-contacts confirmation.
 
-### Optimal Send Times (from Email Marketing Bible)
-- **B2B**: Tuesday-Thursday, 9-11am recipient's timezone
-- **B2C**: Tuesday, Thursday, Saturday. 10am or 7-9pm.
-- **Newsletters**: Consistency matters more than specific timing
-- Avoid Mondays (inbox overload) and Fridays (weekend mindset)
+Do not claim a universal optimal send time. Use the recipient context and the
+account's own results; if there is insufficient evidence, label the timing as a
+test rather than a fact.
 
 ## After Sending
 
 Suggest checking results:
 - Use `nitro_get_insights` with `scope: "campaign"` and the campaign ID
 - Key metrics: open rate, click rate, unsubscribe rate
-- Compare against benchmarks from the email marketing bible
+- Compare against the live insights response and the account's own baseline

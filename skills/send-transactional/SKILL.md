@@ -74,6 +74,9 @@ Help developers integrate transactional emails into their apps:
 ```
 POST https://api.nitrosend.com/v1/my/messages
 Authorization: Bearer nskey_live_...
+Idempotency-Key: verification-user-123-attempt-1
+Content-Type: application/json
+
 {
   "channel": "email",
   "to": "user@example.com",
@@ -93,7 +96,7 @@ await ns.messages.send({
   subject: 'Your verification code',
   template_id: 42,
   data: { code: '123456' }
-})
+}, 'verification-user-123-attempt-1')
 ```
 
 ## Dry Run
@@ -103,4 +106,8 @@ Always offer to do a dry run first:
 
 ## Idempotency
 
-For production use, recommend `idempotency_key` to prevent duplicate sends on retries.
+Every live send must have a stable idempotency key. Reuse it only for an exact
+retry of the same recipient and payload; use a new key for a different logical
+message. MCP uses `idempotency_key`, the REST API uses the `Idempotency-Key`
+header, and the Node SDK accepts the key as the second argument to
+`messages.send`.

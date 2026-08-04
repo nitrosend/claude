@@ -1,180 +1,114 @@
 # Nitrosend Claude Plugin
 
-AI-native email marketing for Claude. Connect Nitrosend over remote MCP,
-authenticate with OAuth, and compose emails, build automation flows, manage
-contacts, and send campaigns from Claude Code or Cowork.
+Use Nitrosend from Claude through the production remote MCP server. The plugin
+adds guided workflows for account setup, templates, campaigns, flows,
+transactional messages, contacts, and analytics.
 
-## Quick Start
+## Install
 
-### 1. Install the plugin
+For local use or source review, clone this repository and load it directly:
 
-**From a marketplace** on a current Claude Code build:
 ```bash
-/plugin install nitrosend@marketplace-name
+claude --plugin-dir /absolute/path/to/claude
 ```
 
-**Local development**:
-```bash
-claude --plugin-dir /path/to/claude
-```
-
-If you do not see `/plugin`, update Claude Code to the latest build first.
-
-### 2. Connect Nitrosend
-
-The plugin bundles Nitrosend as a remote MCP server at
-`https://api.nitrosend.com/mcp`. Open the MCP/connectors UI for your Claude
-client, select the bundled `nitrosend` server, and complete the browser OAuth
-flow for the Nitrosend account you want active.
-
-Do not install `@nitrosend/cli` for Claude Desktop, Claude.ai, Cowork, or this
-plugin. The CLI is for terminal and CI workflows; Claude uses the remote MCP
-connector directly.
-
-See [SETUP.md](./SETUP.md) for connect, reconnect, disconnect, and
-account-verification guidance.
-
-### 3. Verify the connection
-
-Ask Claude to run:
+Marketplace availability is defined by Anthropic's live community catalog. If
+that catalog contains the `nitrosend` entry, install it with:
 
 ```text
-nitro_get_status
+/plugin install nitrosend@claude-community
 ```
 
-This confirms the active Nitrosend account and current onboarding state.
+If the entry is absent, use the local source path above; do not substitute a
+placeholder marketplace name.
 
-## What's Included
+## Connect
 
-### Nitrosend MCP Tools (28)
+The bundled `.mcp.json` connects to:
 
-The plugin bundles the full Nitrosend remote MCP surface — 28 registered tools.
-Three early-access tools are capability-gated and appear only on accounts with
-the feature enabled.
+```text
+https://api.nitrosend.com/mcp
+```
 
-- **Status & docs**: `nitro_get_status` (account health, onboarding state),
-  `nitro_search_docs` (authoritative product documentation search)
-- **Account & brand**: `nitro_select_account` (switch accounts on OAuth
-  connections), `nitro_select_brand`, `nitro_set_brand_kit` (brand identity from
-  URL or manual), `nitro_configure_account` (sender defaults, reply-to, test
-  recipients)
-- **Template management**: `nitro_manage_template` — create, update, clone
-  reusable email templates with section-based design
-- **Campaign management**: `nitro_compose_campaign` — email or SMS campaign
-  drafts with audience targeting
-- **Automation flows**: `nitro_compose_flow` — trigger-based email/SMS sequences
-  with waits, splits, and webhooks
-- **Review & delivery**: `nitro_review_delivery` (validation and readiness),
-  `nitro_send_test_message` (real test sends), `nitro_control_delivery`
-  (approve, go live, pause, schedule)
-- **Transactional email**: `nitro_send_message` — receipts, OTPs, confirmations;
-  immediate, single-recipient
-- **Contact management**: `nitro_import_contacts` (bulk import),
-  `nitro_manage_audience` (contacts, lists, events, tags),
-  `nitro_define_segment` (filtered segments with preview),
-  `nitro_search_contacts`, `nitro_query` (campaigns, flows, templates, lists,
-  and other entities)
-- **Assets**: `nitro_ingest` — host images on Nitrosend storage for use in email
-  designs
-- **Analytics**: `nitro_get_insights` — account-wide and per-entity insights
-  with trends and benchmarks
-- **Agent inbox** (early access): `nitro_inbox` (read the agent queue and
-  mailbox), `nitro_inbox_action` (reply, mark handled, escalate to a human)
-- **Outreach discovery** (early access): `nitro_manage_outreach` — plan and
-  operate person-first outreach discovery with bounded spend
-- **Domains & providers**: `nitro_manage_domains` (add, verify, list sending
-  domains), `nitro_configure_providers` (BYO Mailgun/SES)
-- **Billing, support & memory**: `nitro_manage_billing`, `nitro_request_support`,
-  `nitro_set_memory` (persistent AI context)
+Open the MCP or connectors UI in the Claude client, select `nitrosend`, and
+complete browser OAuth for the intended Nitrosend login. Then ask Claude to
+call `nitro_get_status` and confirm the returned account and brand.
+
+Do not install the Nitrosend CLI or request an API key for normal Claude
+plugin, Claude Desktop, Claude.ai, or Cowork setup. The CLI is for terminal,
+CI, and headless runner workflows outside this plugin.
+
+See [SETUP.md](./SETUP.md) for account switching and troubleshooting.
+
+## What Is Included
+
+The production MCP catalog is authoritative. Claude must use the tools exposed
+by the connected session and must never offer a tool that is absent. Some
+early-access capabilities, including inbox and outreach operations, are
+account-gated and therefore may not appear.
+
+Current workflow groups include:
+
+- **Context and docs:** `nitro_get_status`, `nitro_select_account`,
+  `nitro_select_brand`, `nitro_search_docs`
+- **Brand and sending setup:** `nitro_set_brand_kit`,
+  `nitro_configure_account`, `nitro_manage_domains`,
+  `nitro_configure_providers`
+- **Audience:** `nitro_import_contacts`, `nitro_manage_audience`,
+  `nitro_define_segment`, `nitro_search_contacts`, `nitro_query`
+- **Authoring:** `nitro_manage_template`, `nitro_compose_campaign`,
+  `nitro_compose_flow`, `nitro_ingest`
+- **Review and delivery:** `nitro_review_delivery`,
+  `nitro_send_test_message`, `nitro_control_delivery`, `nitro_send_message`
+- **Operations:** `nitro_get_insights`, `nitro_manage_billing`,
+  `nitro_request_support`, `nitro_set_memory`
+
+Supported BYO email providers are Mailgun, Amazon SES, Postmark, Resend, and
+SendGrid. The connected tool schema remains the authority if that set changes.
 
 ### Skills
 
-| Skill | Command | Description |
-|-------|---------|-------------|
-| Setup | `/nitrosend:setup` | Guided onboarding with optional proactive analytics |
-| Compose Email | `/nitrosend:compose-email` | Template creation wizard |
-| Send Campaign | `/nitrosend:send-campaign` | End-to-end campaign workflow |
-| Send Transactional | `/nitrosend:send-transactional` | App-triggered email/SMS for developers |
-| Build Flow | `/nitrosend:build-flow` | Automation flow builder |
-| Import Contacts | `/nitrosend:import-contacts` | Contact import with compliance guidance |
-| Analytics | `/nitrosend:analytics` | Performance insights and benchmarking |
-| Email Marketing Bible | `/nitrosend:email-marketing-bible` | 65K-word knowledge base (908 sources) |
+| Skill | Command | Purpose |
+|---|---|---|
+| Setup | `/nitrosend:setup` | Connect and complete account readiness |
+| Compose Email | `/nitrosend:compose-email` | Create or edit a reusable template |
+| Send Campaign | `/nitrosend:send-campaign` | Draft, review, test, approve, and deliver a campaign |
+| Send Transactional | `/nitrosend:send-transactional` | Send or integrate one-recipient application messages |
+| Build Flow | `/nitrosend:build-flow` | Build and publish event-driven automation |
+| Import Contacts | `/nitrosend:import-contacts` | Import consented contacts |
+| Analytics | `/nitrosend:analytics` | Inspect account, campaign, flow, or message performance |
+| Email Marketing Bible | `/nitrosend:email-marketing-bible` | Apply durable email-marketing principles |
 
 ### Email Marketer Agent
 
-An expert email marketing strategist that combines deep domain knowledge with Nitrosend's tools.
-
-- Proactive best-practice suggestions backed by industry benchmarks
-- Knows all 28 Nitrosend MCP tools and when to use each
-- Covers strategy, copywriting, deliverability, compliance, and 19 industry playbooks
-- Persistent memory across sessions
-
-Run as the main agent:
-```bash
-claude --agent nitrosend:email-marketer
-```
-
-### Proactive Analytics
-
-During setup, opt in to scheduled reports:
-- **Daily** (weekday mornings): New subscribers + sending activity
-- **Weekly** (Mondays): Open/click rates, list growth, deliverability
-- **Monthly** (1st): Deep dive comparing your metrics against industry benchmarks
+The bundled `email-marketer` agent routes work through the tools actually
+available in the live MCP session. In Claude Code, enable it from `/context` or
+invoke it by its scoped agent name when the client exposes plugin agents.
 
 ## Requirements
 
-- Current Claude Code build with plugin support and remote MCP support
-- Claude Cowork, if you are using the shared plugin directory there
-- A Nitrosend account you can complete OAuth with in the browser
-- Public reachability to `https://api.nitrosend.com/mcp`
+- A current Claude client with plugin and remote MCP support
+- A Nitrosend account accessible through browser OAuth
+- Network access to `https://api.nitrosend.com/mcp`
 
-## Validation
+## Validate
 
-### Current-build plugin smoke test
-
-1. Update Claude Code until `/plugin` is available.
-2. Validate the plugin bundle locally:
+Validate a local checkout with the current Claude Code plugin validator:
 
 ```bash
-claude plugin validate /path/to/claude
+claude plugin validate --strict /absolute/path/to/claude
 ```
 
-3. Install the plugin and restart Claude if prompted.
-4. Open `/mcp` and confirm the bundled `nitrosend` server is present.
-5. Start the Nitrosend connection flow and complete browser OAuth.
-6. Ask Claude to run `nitro_get_status`.
-7. Confirm the returned account and brand details match the account you meant to connect.
-
-### Older-build transport fallback
-
-If you are stuck on an older Claude Code build that has `claude mcp` but not
-`/plugin`, you can still sanity-check the remote transport:
-
-```bash
-claude mcp add-json nitrosend-dev '{"type":"http","url":"https://api.nitrosend.com/mcp"}' --scope local
-claude mcp get nitrosend-dev
-claude mcp remove nitrosend-dev --scope local
-```
-
-On the local `1.0.119` environment used during this cutover, `add-json`
-reported success but `get` and `list` did not reliably surface the local-scope
-entry back. Treat that path as a transport sanity check only, not a substitute
-for the current-build plugin smoke test above.
-
-### Remote review smoke test
-
-1. Install or enable the plugin in the Anthropic surface you plan to submit or review from.
-2. Connect Nitrosend through the client's MCP/connectors UI.
-3. Run `nitro_get_status` immediately after the browser flow returns.
-4. If OAuth connects instantly and account selection is ambiguous, run `nitro_get_status`, check the returned account fields, and switch with `nitro_select_account` if needed — reconnect only to sign in as a different Nitrosend login (see SETUP.md).
+Then load it with `--plugin-dir`, open `/mcp`, connect `nitrosend`, call
+`nitro_get_status`, and confirm the active account and brand before performing
+any mutation.
 
 ## Links
 
 - [Nitrosend](https://nitrosend.com)
-- [Email Marketing Bible](https://emailmarketingskill.com)
-- [SDK Package](https://www.npmjs.com/package/@nitrosend/sdk)
-- [API Docs](https://api.nitrosend.com)
-- [Setup Guide](./SETUP.md)
+- [Nitrosend API](https://docs.nitrosend.com/api)
+- [Nitrosend SDK](https://www.npmjs.com/package/@nitrosend/sdk)
+- [Setup guide](./SETUP.md)
 
 ## License
 

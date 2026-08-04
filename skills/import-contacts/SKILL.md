@@ -41,7 +41,7 @@ Use `nitro_import_contacts` with `records` array:
 {
   "records": [
     { "email": "alice@example.com", "first_name": "Alice", "last_name": "Smith" },
-    { "email": "bob@example.com", "first_name": "Bob", "source": "webinar-2026" }
+    { "email": "bob@example.com", "first_name": "Bob", "source": "product-webinar" }
   ]
 }
 ```
@@ -65,7 +65,7 @@ Use `nitro_manage_audience` with `operation: "manage_list"`:
 ### Tag Contacts
 Use `nitro_manage_audience` with `operation: "bulk_tag"`:
 - `contact_ids: [...]`
-- `tags: ["webinar-attendee", "2026-q1"]`
+- `tags: ["webinar-attendee", "product-interest"]`
 - `tag_action: "add"` (default), `"remove"`, or `"set"`
 
 ## Compliance Reminders
