@@ -85,6 +85,16 @@ The bundled `email-marketer` agent routes work through the tools actually
 available in the live MCP session. In Claude Code, enable it from `/context` or
 invoke it by its scoped agent name when the client exposes plugin agents.
 
+## Desktop Extension (Claude Desktop)
+
+The [`mcpb/`](./mcpb/) directory packages Nitrosend as a Claude Desktop
+extension (`.mcpb`): a one-click install that proxies to the same production
+MCP server with browser OAuth by default and an optional account-pinning API
+key setting. Build it with `cd mcpb && npm ci --omit=dev && npx
+@anthropic-ai/mcpb pack . dist/nitrosend.mcpb`; see
+[mcpb/README.md](./mcpb/README.md) for install, troubleshooting, and the
+extension privacy policy.
+
 ## Requirements
 
 - A current Claude client with plugin and remote MCP support

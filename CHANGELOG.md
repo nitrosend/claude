@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added `mcpb/`: a Claude Desktop extension (MCPB) bundling an mcp-remote-based
+  launcher for the production remote MCP server — browser OAuth by default,
+  optional sensitive API-key setting (env-indirected, never in argv), dedicated
+  OAuth token cache under `~/.nitrosend/mcpb-auth`, and a manifest declaring
+  the public tool baseline with `privacy_policies`.
+
 ## 2.1.2 (2026-08-04)
 
 - Made the intent scaffold and `nitro://schema` authoritative for the complete
