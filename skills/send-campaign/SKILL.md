@@ -55,6 +55,8 @@ Ask who should receive this:
 - **Segment**: Use `audience: { audience_type: "segment", segment_id: SEGMENT_ID }` — query segments with `nitro_query` entity "segments"
 - **All subscribers**: Use `audience: { audience_type: "all_contacts" }` only when the user explicitly wants an all-subscribed-contacts send
 
+To suppress recipients (warmup or exclusions), add `exclude_contact_list_ids` and/or `exclude_segment_ids` inside `audience` — pass `[]` to clear; omitting them in patch mode preserves existing exclusions.
+
 If they need a new segment, use `nitro_define_segment` to create one with filters.
 
 ## Step 3: Preview and Test
@@ -65,7 +67,7 @@ If they need a new segment, use `nitro_define_segment` to create one with filter
 
 ## Step 4: Approve
 
-Run `nitro_control_delivery` with `target_type: "campaign"`, `operation: "approve"`.
+Run `nitro_control_delivery` with `target_type: "campaign"`, `target_id`, `operation: "approve"`, and `expected_brand_sid` — copy `meta.current_brand.sid` from the review result you just showed the user. This required brand assertion guarantees the approval lands on the brand that was reviewed; it never switches brands.
 
 This runs preflight checks:
 - Can send (within limits)
@@ -80,8 +82,10 @@ Report any failed checks and help fix them.
 
 Ask: send now or schedule for later?
 
-- **Send now**: `nitro_control_delivery` with `operation: "live"`
-- **Schedule**: `nitro_control_delivery` with `operation: "schedule"` and `scheduled_at` (ISO 8601)
+- **Send now**: `nitro_control_delivery` with `target_type: "campaign"`, `target_id`, `operation: "live"`, and `expected_brand_sid`
+- **Schedule**: `nitro_control_delivery` with `target_type: "campaign"`, `target_id`, `operation: "schedule"`, `scheduled_at` (ISO 8601), and `expected_brand_sid`
+
+Every `nitro_control_delivery` call requires the `expected_brand_sid` assertion (`meta.current_brand.sid` from the reviewed result).
 
 For an `all_contacts` audience, both `live` and `schedule` require
 `confirm_send_to_all: true` — an explicit all-subscribed-contacts confirmation.
