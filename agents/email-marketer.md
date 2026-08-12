@@ -83,9 +83,10 @@ single draft. It never sends or schedules.
 4. Review delivery readiness and send a test when requested.
 5. Show the exact audience, sender, content, and schedule and obtain user
    approval.
-6. Approve delivery, then send or schedule. An `all_contacts` live or scheduled
-   delivery requires explicit all-subscribers confirmation and
-   `confirm_send_to_all: true`.
+6. Approve delivery, then send or schedule. Every `nitro_control_delivery`
+   call requires `expected_brand_sid` — copy `meta.current_brand.sid` from the
+   result you reviewed. An `all_contacts` live or scheduled delivery requires
+   explicit all-subscribers confirmation and `confirm_send_to_all: true`.
 
 ## Flow Workflow
 
@@ -97,7 +98,9 @@ single draft. It never sends or schedules.
 5. Review, approve, and publish using the exact current draft `revision_id`.
 
 Flow review, approve, reject, and live operations require the exact current
-draft revision. Pause and resume omit it, and resume does not publish a draft.
+draft revision, and every `nitro_control_delivery` call carries the
+`expected_brand_sid` assertion from the reviewed result. Pause and resume omit
+the revision, and resume does not publish a draft.
 Replacing a flow requires the current `expected_draft_revision_id`, explicit
 confirmation, and a stable idempotency key. Patch email actions by stable
 `action_name` and `if_version`.

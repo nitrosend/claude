@@ -69,7 +69,11 @@ before persistence. Call `nitro_compose_flow` with `composition_mode: "intent"`.
 Treat `next_call.input` as the selected complete baseline for the flow and its
 email steps; preserve and fill it by default. Use the compact
 `composition_contract.creative_routes` menu and start a fresh intent with
-`creative_route_id` to select another ready route. If that route lacks frozen
+`creative_route_id` to select another ready route (that top-level field applies
+one route to the whole sequence; to assign routes per email in a multi-email
+flow, use `email_baseline_selections` entries of `action_name` + `route_id` —
+plus that email's `image_binding_ids` when the route is image-led — as the
+returned contract describes). If that route lacks frozen
 evidence, obtain the exact reported facts. Never fall back silently or invent
 evidence.
 
@@ -89,12 +93,16 @@ context.
 3. Create for real (without dry_run)
 4. Review: `nitro_review_delivery` with `target_type: "flow"`, `target_id`, and
    the exact current `revision_id` (flow reviews require it)
-5. Approve: `nitro_control_delivery` with `target_type: "flow"`,
-   `operation: "approve"`, and the exact current draft `revision_id`
-6. Go live: `nitro_control_delivery` with `operation: "live"` and `revision_id`
+5. Approve: `nitro_control_delivery` with `target_type: "flow"`, `target_id`,
+   `operation: "approve"`, the exact current draft `revision_id`, and
+   `expected_brand_sid` (copy `meta.current_brand.sid` from the review result)
+6. Go live: `nitro_control_delivery` with `target_type: "flow"`, `target_id`,
+   `operation: "live"`, `revision_id`, and `expected_brand_sid`
 
 Flow `approve`, `reject`, and `live` all require the exact current draft
 `revision_id`; `pause`/`resume` omit it, and `resume` never publishes a draft.
+Every `nitro_control_delivery` call requires the `expected_brand_sid` brand
+assertion from the result you reviewed — it never switches brands.
 
 ## Modify Existing Flows
 
