@@ -1,6 +1,6 @@
 {
   "name": "nitrosend",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Remote Nitrosend MCP plugin for Claude. Connect with OAuth to compose newsletters, build flows, manage contacts, and send campaigns.",
   "author": {
     "name": "Nitrosend",
@@ -10,5 +10,16 @@
   "homepage": "https://nitrosend.com",
   "repository": "https://github.com/nitrosend/claude",
   "license": "MIT",
-  "keywords": ["email", "newsletter", "marketing", "automation", "campaigns", "transactional", "mcp", "oauth", "claude", "connector"]
+  "keywords": [
+    "email",
+    "newsletter",
+    "marketing",
+    "automation",
+    "campaigns",
+    "transactional",
+    "mcp",
+    "oauth",
+    "claude",
+    "connector"
+  ]
 }

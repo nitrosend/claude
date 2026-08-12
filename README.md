@@ -12,15 +12,15 @@ For local use or source review, clone this repository and load it directly:
 claude --plugin-dir /absolute/path/to/claude
 ```
 
-Marketplace availability is defined by Anthropic's live community catalog. If
-that catalog contains the `nitrosend` entry, install it with:
+This repository is itself a plugin marketplace, so the standard install is:
 
 ```text
-/plugin install nitrosend@claude-community
+/plugin marketplace add nitrosend/claude
+/plugin install nitrosend@nitrosend
 ```
 
-If the entry is absent, use the local source path above; do not substitute a
-placeholder marketplace name.
+If the plugin also appears in Anthropic's official directory catalog, installing
+it from there is equivalent.
 
 ## Connect
 
@@ -82,8 +82,12 @@ SendGrid. The connected tool schema remains the authority if that set changes.
 ### Email Marketer Agent
 
 The bundled `email-marketer` agent routes work through the tools actually
-available in the live MCP session. In Claude Code, enable it from `/context` or
+available in the live MCP session. In Claude Code, manage it from `/agents` or
 invoke it by its scoped agent name when the client exposes plugin agents.
+
+In MCP-Apps-capable hosts (Claude.ai and Claude Desktop),
+`nitro_compose_campaign` and `nitro_manage_template` results also render an
+inline preview of the composed email alongside the text response.
 
 ## Desktop Extension (Claude Desktop)
 
