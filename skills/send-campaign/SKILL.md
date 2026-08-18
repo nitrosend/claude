@@ -47,9 +47,12 @@ Run `nitro_control_delivery` with `target_type: "campaign"`, `operation: "approv
 This runs preflight checks:
 - Can send (within limits)
 - Subscription active
-- Domain verified (or sandbox)
+- One ready, explicitly selected sender identity
 - Physical address set
 - Sender configured
+
+Treat the returned review/admission findings as authoritative. Do not recreate
+capacity, sender, content, or billing gates from plan names or local rules.
 
 Report any failed checks and help fix them.
 

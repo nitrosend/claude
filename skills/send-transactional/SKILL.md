@@ -98,3 +98,13 @@ Always offer to do a dry run first:
 ## Idempotency
 
 For production use, recommend `idempotency_key` to prevent duplicate sends on retries.
+
+## Nitrosend Sender Readiness
+
+Before the first live email, inspect `brand_subdomain` in
+`nitro_get_status`. If preparation is required, use
+`nitro_manage_domains(operation: "prepare_brand_subdomain")`, poll until it
+is ready, then select it explicitly. A first authenticated send may return
+`sender_identity_provisioning`; that response is retryable, but no message was
+stored or queued. Retry with the same idempotency key only after readiness and
+selection.
