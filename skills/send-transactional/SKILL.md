@@ -111,3 +111,13 @@ retry of the same recipient and payload; use a new key for a different logical
 message. MCP uses `idempotency_key`, the REST API uses the `Idempotency-Key`
 header, and the Node SDK accepts the key as the second argument to
 `messages.send`.
+
+## Nitrosend Sender Readiness
+
+Before the first live email, inspect `brand_subdomain` in
+`nitro_get_status`. If preparation is required, use
+`nitro_manage_domains(operation: "prepare_brand_subdomain")`, poll until it
+is ready, then select it explicitly. A first authenticated send may return
+`sender_identity_provisioning`; that response is retryable, but no message was
+stored or queued. Retry with the same idempotency key only after readiness and
+selection.

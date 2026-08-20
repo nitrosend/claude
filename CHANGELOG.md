@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.4 (2026-08-20)
+
+- Replaced retired shared-sender setup with the live on-demand brand-subdomain
+  preparation, readiness polling, and explicit sender-selection workflow.
+- Documented retry-safe first-send provisioning for transactional messages and
+  made the API's live readiness findings authoritative for campaign delivery.
+
 ## 2.1.3 (2026-08-12)
 
 - Synced skill and agent recipes with the live MCP contract: every

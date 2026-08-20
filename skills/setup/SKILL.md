@@ -2,7 +2,8 @@
 name: setup
 description: >
   Guided Nitrosend onboarding. Walks through remote MCP connection, Brand Kit
-  identity setup, sending domain verification, and sender defaults. Also
+  identity setup, brand-subdomain preparation or customer-domain verification,
+  and sender defaults. Also
   offers to configure proactive analytics (daily/weekly/monthly reports).
   Use when: "set up nitrosend", "configure email", "onboard", "get started
   with nitrosend", or when nitro_get_status shows incomplete onboarding.
@@ -68,22 +69,30 @@ use `nitro_ingest` first and pass its returned `media_url` or `image_url`.
 
 ## Step 4: Sending Domain
 
-If no domain is verified, explain that the shared `nitr-o.com` sandbox supports
-test sends and small campaigns while a custom domain is being prepared. If the
-user wants a branded sender, guide them through:
+Read `brand_subdomain` from `nitro_get_status`. If there is no ready selected
+sender, offer these two explicit paths:
 
-1. `nitro_manage_domains` with `operation: "add"` and
-   `params: {domain_name: "send.example.com"}`
-2. Show the DNS records they need to add at their registrar
-3. After they add the records, call `nitro_manage_domains` with
-   `operation: "verify"` and the same `params.domain_name`
+1. Recommended quick start: call `nitro_manage_domains` with
+   `operation: "prepare_brand_subdomain"`. Brand creation reserved the shown
+   `<brand>.nitrosend.com` address, but this call creates its DNS, DKIM,
+   provider, and tenant resources. It sends and retains no email.
+2. Poll `nitro_get_status` until `brand_subdomain.ready` is true. Then call
+   `nitro_manage_domains` with `operation: "select_brand_subdomain"` and the
+   user's chosen `local_part` (default `hello`). Never infer selection from
+   readiness.
+3. Customer-domain alternative: use `nitro_manage_domains` with
+   `operation: "add"`, show the returned DNS records, wait for the user to add
+   them, then use `operation: "verify"`.
+
+Do not claim that account creation or a draft consumes sending infrastructure.
+Do not describe a shared sender or an allowance for unverified sending.
 
 ## Step 5: Sender Defaults
 
 Use `nitro_configure_account` to set:
 - `from_name`: Their preferred sender name
-- `from_email`: Use a sender address allowed by the current sandbox or verified
-  custom-domain state returned by `nitro_get_status`
+- `from_email`: Must match the explicitly selected Nitrosend brand-subdomain
+  sender or a verified customer domain
 - `reply_to`: Where replies should go
 - `test_email_recipients`: Up to 5 emails for test sends
 

@@ -1,5 +1,6 @@
 {
   "name": "nitrosend",
+  "description": "Nitrosend's official Claude plugins for reliable email delivery and lifecycle marketing.",
   "owner": {
     "name": "Nitrosend",
     "email": "contact@nitrosend.com",
