@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.5 (2026-10-19)
+
+- Moved repository-only contributor conventions out of plugin context discovery so strict Claude plugin validation passes.
+- Refreshed the bundled desktop extension dependencies to resolve audited vulnerabilities and prepared MCPB 1.0.1.
+
 ## 2.1.4 (2026-08-20)
 
 - Replaced retired shared-sender setup with the live on-demand brand-subdomain
