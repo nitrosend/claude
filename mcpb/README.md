@@ -10,7 +10,7 @@ client registration). No API key is required.
 
 ## Install
 
-1. Download `nitrosend.mcpb`.
+1. Download [nitrosend.mcpb](https://github.com/nitrosend/claude/releases/latest/download/nitrosend.mcpb) from the latest first-party release.
 2. Double-click it (or drag it onto Claude Desktop). Claude Desktop opens the
    install dialog under Settings → Extensions.
 3. Click Install. Node.js (20.18.1 or newer is required; current Claude Desktop

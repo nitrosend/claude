@@ -1,6 +1,6 @@
 {
   "name": "nitrosend-mcpb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nitrosend Desktop Extension — connects Claude Desktop to the Nitrosend remote MCP server with browser OAuth",
   "private": true,
   "license": "MIT",
