@@ -91,6 +91,8 @@ Brand memory can guide selection but cannot prove an image URL or its contents.
 
 **Update existing**: Use `nitro_manage_template` with `template_id` and the fields to change — prefer `section_updates` for targeted edits, and pass `if_version` for optimistic concurrency (the call is rejected if the template version has moved).
 
+**Update a campaign's email**: Use `nitro_compose_campaign` with `campaign_id`, `mode: "patch"` and the same `section_updates`, plus `if_version`. A campaign's email is saved through its campaign, never through `nitro_manage_template`.
+
 **Clone existing**: Use `nitro_manage_template` with `based_on` (source template ID); creative overrides enter the authoring contract.
 
 Every non-dry-run persistence mutation — create, clone, targeted update, full
