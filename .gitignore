@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 *.log
+
+# Desktop extension bundles live in nitrosend/mcp; never commit one here
+*.mcpb
