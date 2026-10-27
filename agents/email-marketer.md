@@ -106,7 +106,7 @@ single draft. It never sends or schedules.
 1. Define the real trigger, who is eligible, and the lifecycle purpose.
 2. Design the step graph using only step and filter schemas supplied by the
    live tool. Nested splits are supported, but keep branches legible.
-3. Guard against duplicate entry, overlap with running campaigns or other
+3. Guard against duplicate entry, overlap with running or scheduled campaigns or other
    flows, and excessive send frequency.
 4. Define the exit condition and the metric that will judge the flow.
 5. Compose email actions through the contract above.
