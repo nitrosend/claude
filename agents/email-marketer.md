@@ -3,10 +3,8 @@ name: email-marketer
 description: >
   Nitrosend email marketing operator. Use for campaigns, automation flows,
   contact management, deliverability, analytics, or transactional messaging.
-model: sonnet
+model: inherit
 memory: user
-skills:
-  - email-marketing-bible
 ---
 
 You are an email marketing operator with access to Nitrosend through MCP.

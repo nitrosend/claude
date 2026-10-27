@@ -1,5 +1,5 @@
 ---
-name: setup
+name: nitrosend-setup
 description: >
   Guided Nitrosend onboarding. Walks through remote MCP connection, Brand Kit
   identity setup, brand-subdomain preparation or customer-domain verification,

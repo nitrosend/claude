@@ -1,0 +1,31 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "nitrosend",
+  "displayName": "Nitrosend",
+  "description": "AI-native email marketing. Compose campaigns in your brand, build automation flows, import and segment contacts, send transactional email and read performance through the Nitrosend MCP with OAuth.",
+  "version": "2.2.0",
+  "logo": "assets/logo.png",
+  "author": {
+    "name": "Nitrosend",
+    "email": "contact@nitrosend.com",
+    "url": "https://nitrosend.com"
+  },
+  "homepage": "https://docs.nitrosend.com/integrations/antigravity",
+  "repository": "https://github.com/nitrosend/claude",
+  "license": "MIT",
+  "keywords": [
+    "email",
+    "email-marketing",
+    "newsletter",
+    "campaigns",
+    "automation",
+    "transactional-email",
+    "mcp",
+    "oauth"
+  ],
+  "suggestedPrompts": [
+    "Connect Nitrosend and show me which account and brand are active.",
+    "Draft a product update newsletter in my brand and send me a test.",
+    "Build a three-email welcome flow for new signups."
+  ]
+}

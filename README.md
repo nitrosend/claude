@@ -22,6 +22,40 @@ This repository is itself a plugin marketplace, so the standard install is:
 If the plugin also appears in Anthropic's official directory catalog, installing
 it from there is equivalent.
 
+### Skills only (any agent)
+
+To add just the skills to Claude Code, Codex, Cursor, Gemini CLI and other
+agents that read Agent Skills, use the open `skills` CLI:
+
+```bash
+npx skills add nitrosend/claude
+```
+
+The skills call the Nitrosend MCP server, so connect
+`https://api.nitrosend.com/mcp` in that agent as well. See the
+[integration guides](https://docs.nitrosend.com/integrations/overview).
+
+### Google Antigravity
+
+The same repository installs as an Antigravity plugin, with the skills, the
+`email-marketer` agent and the remote MCP server:
+
+```bash
+agy plugin install https://github.com/nitrosend/claude
+```
+
+Then authenticate `nitrosend` from Antigravity's Customizations settings. See
+the [Antigravity guide](https://docs.nitrosend.com/integrations/antigravity).
+
+### Email Marketing Bible
+
+The email-marketing reference skill lives in its own repository so installs
+are not split across copies:
+
+```bash
+npx skills add CosmoBlk/email-marketing-bible
+```
+
 ## Connect
 
 The bundled `.mcp.json` connects to:
@@ -70,14 +104,13 @@ SendGrid. The connected tool schema remains the authority if that set changes.
 
 | Skill | Command | Purpose |
 |---|---|---|
-| Setup | `/nitrosend:setup` | Connect and complete account readiness |
+| Setup | `/nitrosend:nitrosend-setup` | Connect and complete account readiness |
 | Compose Email | `/nitrosend:compose-email` | Create or edit a reusable template |
 | Send Campaign | `/nitrosend:send-campaign` | Draft, review, test, approve, and deliver a campaign |
 | Send Transactional | `/nitrosend:send-transactional` | Send or integrate one-recipient application messages |
 | Build Flow | `/nitrosend:build-flow` | Build and publish event-driven automation |
 | Import Contacts | `/nitrosend:import-contacts` | Import consented contacts |
-| Analytics | `/nitrosend:analytics` | Inspect account, campaign, flow, or message performance |
-| Email Marketing Bible | `/nitrosend:email-marketing-bible` | Apply durable email-marketing principles |
+| Analytics | `/nitrosend:nitrosend-analytics` | Inspect account, campaign, flow, or message performance |
 
 ### Email Marketer Agent
 
@@ -116,6 +149,22 @@ claude plugin validate --strict /absolute/path/to/claude
 Then load it with `--plugin-dir`, open `/mcp`, connect `nitrosend`, call
 `nitro_get_status`, and confirm the active account and brand before performing
 any mutation.
+
+Antigravity reads `.antigravity-plugin/plugin.json` and the root
+`mcp_config.json`. Check them with:
+
+```bash
+agy plugin validate /absolute/path/to/claude
+```
+
+The only expected warning is that Antigravity ignores Claude's `.mcp.json`.
+
+## Privacy and Support
+
+- Privacy policy: [nitrosend.com/privacy](https://nitrosend.com/privacy)
+- Support: [contact@nitrosend.com](mailto:contact@nitrosend.com) or
+  [app.nitrosend.com/support](https://app.nitrosend.com/support)
+- Plugin issues: [github.com/nitrosend/claude/issues](https://github.com/nitrosend/claude/issues)
 
 ## Links
 
