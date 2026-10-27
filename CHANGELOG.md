@@ -16,6 +16,14 @@
 - The `email-marketer` agent now inherits the session model, which both Claude
   Code and Antigravity accept.
 - Removed the empty `hooks/hooks.json`. The plugin registers no hooks.
+- Moved the Claude Desktop extension source (`mcpb/`) to
+  [nitrosend/mcp](https://github.com/nitrosend/mcp/tree/main/mcpb) and removed
+  the unused `assets/logo.png`. The plugin bundle no longer contains a launcher
+  that reads `NITROSEND_API_KEY` or binary images, which held updates for
+  manual review in Anthropic's directory. MCPB 1.0.1 stays on the v2.1.5
+  release.
+- Added `displayName`, `documentationUrl`, `supportUrl` and
+  `termsOfServiceUrl` for the directory listing.
 - Added `privacyPolicyUrl` to the plugin manifest and documented
   `npx skills add nitrosend/claude`, privacy and support in the README.
 

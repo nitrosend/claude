@@ -2,7 +2,3 @@ node_modules/
 .DS_Store
 *.log
 
-# MCPB desktop extension build artifacts
-mcpb/node_modules/
-mcpb/dist/
-*.mcpb

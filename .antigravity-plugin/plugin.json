@@ -4,7 +4,7 @@
   "displayName": "Nitrosend",
   "description": "AI-native email marketing. Compose campaigns in your brand, build automation flows, import and segment contacts, send transactional email and read performance through the Nitrosend MCP with OAuth.",
   "version": "2.2.0",
-  "logo": "assets/logo.png",
+  "logo": "assets/icon.svg",
   "author": {
     "name": "Nitrosend",
     "email": "contact@nitrosend.com",

@@ -124,13 +124,11 @@ inline preview of the composed email alongside the text response.
 
 ## Desktop Extension (Claude Desktop)
 
-The [`mcpb/`](./mcpb/) directory packages Nitrosend as a Claude Desktop
-extension (`.mcpb`): a one-click install that proxies to the same production
-MCP server with browser OAuth by default and an optional account-pinning API
-key setting. Build it with `cd mcpb && npm ci --omit=dev && npx
-@anthropic-ai/mcpb pack . dist/nitrosend.mcpb`; see
-[mcpb/README.md](./mcpb/README.md) for install, troubleshooting, and the
-extension privacy policy.
+The Claude Desktop extension (`.mcpb`) now lives in
+[nitrosend/mcp](https://github.com/nitrosend/mcp/tree/main/mcpb). Download the
+current build,
+[nitrosend.mcpb 1.0.1](https://github.com/nitrosend/claude/releases/download/v2.1.5/nitrosend.mcpb),
+from the v2.1.5 release.
 
 ## Requirements
 
