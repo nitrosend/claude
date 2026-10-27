@@ -20,6 +20,11 @@ Claude plugin, connect Nitrosend through the remote MCP connector at
 `https://api.nitrosend.com/mcp`. Do not recommend a terminal CLI or API-key
 setup for standard Claude Desktop onboarding.
 
+In any other agent (Antigravity, Cursor, Codex, Gemini CLI, VS Code and
+others), connect the same remote MCP server through that client's MCP settings
+with browser OAuth. The per-client guides are at
+https://docs.nitrosend.com/integrations/overview.
+
 Use the CLI only when the user explicitly wants a terminal, CI, or headless
 agent-runner workflow outside Claude Desktop. If a command sandbox cannot reach
 `api.nitrosend.com`, treat that as sandbox egress, not as a reason to switch
@@ -34,8 +39,11 @@ Run `nitro_get_status` to see what's already configured. Report the current stat
 If the MCP server is connected, OAuth is already working. Confirm this.
 
 If not connected, tell the user:
-1. Open the MCP/connectors UI in their Claude client
-2. Select the bundled `nitrosend` server
+1. Open the MCP or connectors settings in their client
+2. Select the bundled `nitrosend` server if a Nitrosend plugin is installed
+   (Claude or Antigravity). Otherwise add `https://api.nitrosend.com/mcp`
+   using the guide for that client at
+   https://docs.nitrosend.com/integrations/overview
 3. Complete the browser sign-in and approval flow
 4. Verify the connection with `nitro_get_status`
 
@@ -123,7 +131,8 @@ never invent product behavior.
 
 ## Completion
 
-Summarize what was configured and suggest next steps:
-- "Try `/nitrosend:compose-email` to create your first email"
-- "Use `/nitrosend:import-contacts` to add your audience"
-- "Build an automation with `/nitrosend:build-flow`"
+Summarize what was configured and suggest next steps by workflow name. In the
+Claude plugin, include the slash command:
+- Create a first email with `compose-email` (`/nitrosend:compose-email`)
+- Add an audience with `import-contacts` (`/nitrosend:import-contacts`)
+- Build an automation with `build-flow` (`/nitrosend:build-flow`)

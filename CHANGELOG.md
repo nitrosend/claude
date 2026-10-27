@@ -6,6 +6,8 @@
   `nitrosend-analytics` so they stay unambiguous in shared skill directories.
   The commands are now `/nitrosend:nitrosend-setup` and
   `/nitrosend:nitrosend-analytics`.
+- `nitrosend-setup` now gives connection steps for agents other than Claude,
+  since the skills also install through `npx skills add` and Antigravity.
 - Removed the vendored `email-marketing-bible` skill. Install it from
   `CosmoBlk/email-marketing-bible` instead.
 - Added a Google Antigravity package: `.antigravity-plugin/plugin.json` and a
