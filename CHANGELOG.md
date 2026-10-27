@@ -1,5 +1,32 @@
 # Changelog
 
+## 2.2.0 (2026-10-27)
+
+- Renamed the generic `setup` and `analytics` skills to `nitrosend-setup` and
+  `nitrosend-analytics` so they stay unambiguous in shared skill directories.
+  The commands are now `/nitrosend:nitrosend-setup` and
+  `/nitrosend:nitrosend-analytics`.
+- `nitrosend-setup` now gives connection steps for agents other than Claude,
+  since the skills also install through `npx skills add` and Antigravity.
+- Removed the vendored `email-marketing-bible` skill. Install it from
+  `CosmoBlk/email-marketing-bible` instead.
+- Added a Google Antigravity package: `.antigravity-plugin/plugin.json` and a
+  root `mcp_config.json` that uses `serverUrl`. Install with
+  `agy plugin install https://github.com/nitrosend/claude`.
+- The `email-marketer` agent now inherits the session model, which both Claude
+  Code and Antigravity accept.
+- Removed the empty `hooks/hooks.json`. The plugin registers no hooks.
+- Moved the Claude Desktop extension source (`mcpb/`) to
+  [nitrosend/mcp](https://github.com/nitrosend/mcp/tree/main/mcpb) and removed
+  the unused `assets/logo.png`. The plugin bundle no longer contains a launcher
+  that reads `NITROSEND_API_KEY` or binary images, which held updates for
+  manual review in Anthropic's directory. MCPB 1.0.1 stays on the v2.1.5
+  release.
+- Added `displayName`, `documentationUrl`, `supportUrl` and
+  `termsOfServiceUrl` for the directory listing.
+- Added `privacyPolicyUrl` to the plugin manifest and documented
+  `npx skills add nitrosend/claude`, privacy and support in the README.
+
 ## 2.1.5 (2026-10-19)
 
 - Moved repository-only contributor conventions out of plugin context discovery so strict Claude plugin validation passes.

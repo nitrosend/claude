@@ -1,5 +1,5 @@
 ---
-name: analytics
+name: nitrosend-analytics
 description: >
   Inspect Nitrosend account, campaign, flow, or message performance and turn
   live metrics into bounded recommendations. Use when: "email analytics",

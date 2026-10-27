@@ -10,7 +10,7 @@
     {
       "name": "nitrosend",
       "source": "./",
-      "description": "AI-native email marketing: compose newsletters, build flows, manage contacts, and send campaigns through the Nitrosend MCP with OAuth. Ships 8 skills including the email-marketing-bible."
+      "description": "AI-native email marketing: compose newsletters, build flows, manage contacts, and send campaigns through the Nitrosend MCP with OAuth."
     }
   ]
 }

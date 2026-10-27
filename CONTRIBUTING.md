@@ -17,7 +17,9 @@
 
 - `.claude-plugin/plugin.json` — plugin manifest
 - `.mcp.json` — production remote MCP server definition
+- `.antigravity-plugin/plugin.json` and `mcp_config.json`: Google Antigravity
+  manifest and MCP server definition (`serverUrl`). Keep the version in step
+  with `.claude-plugin/plugin.json`
 - `SETUP.md` — OAuth setup, account selection, and troubleshooting
-- `hooks/hooks.json` — plugin hook configuration
 - `agents/` — plugin agent definitions
 - `skills/` — guided Nitrosend workflows
