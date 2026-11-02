@@ -90,7 +90,9 @@ sender, offer these two explicit paths:
    readiness.
 3. Customer-domain alternative: use `nitro_manage_domains` with
    `operation: "add"`, show the returned DNS records, wait for the user to add
-   them, then use `operation: "verify"`.
+   them, then use `operation: "verify"`. It names any record still missing and
+   is safe to repeat; once the records are in place, Nitrosend verifies the
+   domain on its own, and `verify` shows its progress.
 
 Do not claim that account creation or a draft consumes sending infrastructure.
 Do not describe a shared sender or an allowance for unverified sending.
