@@ -61,15 +61,25 @@ API-key connections are pinned to one account and cannot switch.
 
 ## Step 3: Brand Kit
 
-If Brand Kit is not set, ask the user for their website URL and run
+If the brand has no real business context, ask the user for their website URL and run
 `nitro_set_brand_kit` with `url`, the default synchronous mode, and a stable
 `idempotency_key`. Let them override any scraped values. Reuse that key only
 for an exact retry.
 
 If they don't have a website, ask for:
 - Company name
-- Brand color (hex)
-- Logo URL (optional)
+- A sentence about what the business offers and who it is for
+
+Save `fields.company_name` and `fields.company_description`. Use the theme
+schema's default brand colour unless one is supplied. Do not ask for a hex
+colour or logo before understanding the business, and never invent "My Brand"
+or a description. A name and colour alone are not enough to write from.
+
+Read `brand.welcome_email` in status before composing. A queued, writing or
+sending preview is already being prepared on the server; let it finish and
+read its campaign. If written or sent, show the existing draft. Do not create
+or send another first email just because the agent has connected. This owner
+preview never sends to subscribers.
 
 Send direct identity values in `fields`. Pass a public `logo_url` separately;
 remote logo fetches also require a stable `idempotency_key`. For a local image,
@@ -81,10 +91,12 @@ Read `brand_subdomain` from `nitro_get_status`. If there is no ready selected
 sender, offer these two explicit paths:
 
 1. Recommended quick start: call `nitro_manage_domains` with
-   `operation: "prepare_brand_subdomain"`. Brand creation reserved the shown
-   `<brand>.nitrosend.com` address, but this call creates its DNS, DKIM,
-   provider, and tenant resources. It sends and retains no email.
-2. Poll `nitro_get_status` until `brand_subdomain.ready` is true. Then call
+   `operation: "prepare_brand_subdomain"`. This reserves the brand-matched
+   `<name>.nitrosend.net` address and creates its local sending identity under
+   Nitrosend's verified root. No per-brand DNS or DKIM work is needed. It
+   sends no email and preserves an existing sender selection.
+2. If needed, poll `nitro_get_status` until `brand_subdomain.ready` is true.
+   Only if it is not selected, call
    `nitro_manage_domains` with `operation: "select_brand_subdomain"` and the
    user's chosen `local_part` (default `hello`). Never infer selection from
    readiness.
