@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.2.2 (2026-11-12)
+
+- The `email-marketer` agent's frontmatter now has only `name` and
+  `description`. Anthropic's directory accepts other agent frontmatter keys
+  only from Verified organizations, and that check refused 2.2.1. The agent
+  now uses the host's default model, which is normally the session model; in
+  Claude Code, `CLAUDE_CODE_SUBAGENT_MODEL` can override it. Nitrosend brand
+  memory still works through `nitro_set_memory`. The agent no longer keeps a
+  separate memory of its own across sessions.
+
+## 2.2.1 (2026-11-04)
+
+- `nitrosend-setup` builds the Brand Kit from the user's website, or, with no
+  website, from the company name and a sentence about the business. It no
+  longer asks for a hex colour or logo first.
+- `nitrosend-setup` reads `brand.welcome_email` and reuses the welcome preview
+  the server is already preparing instead of writing another first email.
+- The brand-subdomain quick start now reserves `<name>.nitrosend.net` under
+  Nitrosend's verified root, with no per-brand DNS or DKIM work, and keeps an
+  existing sender selection.
+- `nitrosend-setup` explains that `verify` is safe to repeat once DNS records
+  are added.
+- `compose-email` edits a campaign's email through `nitro_compose_campaign`
+  with `section_updates`.
+
 ## 2.2.0 (2026-10-27)
 
 - Renamed the generic `setup` and `analytics` skills to `nitrosend-setup` and

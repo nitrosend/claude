@@ -5,7 +5,9 @@
 - Use Conventional Commits with the scopes `plugin`, `skill`, `agent`, `hook`,
   or `mcp`.
 - Do not add co-authored-by or AI trailers.
-- Skills and agents use valid YAML frontmatter.
+- Skills and agents use valid YAML frontmatter with only `name` and
+  `description`. Anthropic's directory accepts other frontmatter keys only
+  from Verified organizations.
 - Treat the tool catalog and schemas returned by the production MCP session as
   authoritative. Do not hardcode a tool count or offer unavailable tools.
 - Treat `nitro_search_docs` output as the authority for product details not
