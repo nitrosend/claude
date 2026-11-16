@@ -16,7 +16,12 @@ Guide the user through the full campaign lifecycle.
 Ask:
 - Campaign name
 - Channel: email (default) or SMS
-- Subject line (email only)
+- Subject line (email only). It must grip: the reader has to feel invested
+  before they open. Lead with one person or one moment from the email, a
+  detail the reader can picture, a real stake or a gap only the email
+  closes; on a promotion, say the exact deal plainly and first. A subject
+  that only names what's inside ("Our spring collection") fails. Everything
+  in it comes from the email: nothing is invented to make it grip.
 
 For email, choose design approach:
 - **Inline sections**: Build design from scratch (use compose-email patterns)
