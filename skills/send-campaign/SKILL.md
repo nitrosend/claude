@@ -1,10 +1,12 @@
 ---
 name: send-campaign
 description: >
-  End-to-end campaign workflow: create, design, target audience, preview,
-  test, approve, and send or schedule an email or SMS campaign. Use when:
+  End-to-end email campaign and newsletter workflow: create, design, target
+  a list or segment, preview, test, approve, and send or schedule an email
+  or SMS campaign. Covers newsletters, promotional emails, product
+  announcements, launches, sales and Black Friday email blasts. Use when:
   "send campaign", "email blast", "newsletter", "send to my list",
-  "broadcast email", or "schedule campaign".
+  "broadcast email", "bulk email", or "schedule campaign".
 ---
 
 # Send Campaign

@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.3.0 (2026-11-19)
+
+- The directory listing is written for search: a new display name and
+  description, 76 discovery keywords, and a README that opens with what
+  Nitrosend does. The marketplace entry gains a category and tags.
+- 13 new skills named after what people ask for: `email-brand-kit`,
+  `welcome-email-series`, `abandoned-cart-emails`, `signup-form-builder`,
+  `mailchimp-migration`, `klaviyo-migration`, `email-platform-migration`,
+  `contacts-and-segments`, `email-deliverability-check`,
+  `shared-email-inbox`, `shopify-email-marketing`, `email-integrations` and
+  `agency-client-email`.
+- The seven existing skills keep their names and instructions with fuller
+  descriptions.
+
 ## 2.2.2 (2026-11-12)
 
 - The `email-marketer` agent's frontmatter now has only `name` and

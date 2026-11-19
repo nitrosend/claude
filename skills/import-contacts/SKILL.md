@@ -1,10 +1,12 @@
 ---
 name: import-contacts
 description: >
-  Import contacts into Nitrosend from inline records or CSV. Handles email
-  opt-in, SMS TCPA compliance, list assignment, and tagging. Use when:
-  "import contacts", "add subscribers", "upload contacts", "add to list",
-  "bulk add contacts", or "import CSV".
+  Import contacts into Nitrosend from inline records or CSV, including lists
+  exported from Klaviyo, MailerLite, Brevo, Kit (ConvertKit), beehiiv or
+  Substack. Handles email opt-in, SMS TCPA compliance, list assignment and
+  tagging for your mailing list and subscribers. Use when: "import
+  contacts", "add subscribers", "upload contacts", "add to list", "bulk add
+  contacts", "email list", or "import CSV".
 ---
 
 # Import Contacts
