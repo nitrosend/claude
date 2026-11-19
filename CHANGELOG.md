@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3.0 (2026-11-19)
+
+- Added the `migrate-account` skill (`/nitrosend:migrate-account`) for moving
+  a sender from another email tool to Nitrosend. It runs eleven gated steps:
+  intake, when to bring in a person, a playbook for each source, suppressions
+  before contacts, a count check against the old tool, engagement and history,
+  domain authentication with DMARC, flows rebuilt as drafts, a warmup that
+  starts with engaged contacts, a 14 day cutover and day 7 and day 30 checks.
+- `import-contacts` now sends a move from another email tool to
+  `migrate-account`.
+
 ## 2.2.2 (2026-11-12)
 
 - The `email-marketer` agent's frontmatter now has only `name` and

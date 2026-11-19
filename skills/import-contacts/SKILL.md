@@ -4,12 +4,26 @@ description: >
   Import contacts into Nitrosend from inline records or CSV. Handles email
   opt-in, SMS TCPA compliance, list assignment, and tagging. Use when:
   "import contacts", "add subscribers", "upload contacts", "add to list",
-  "bulk add contacts", or "import CSV".
+  "bulk add contacts", or "import CSV". For a move from another email tool,
+  use migrate-account instead.
 ---
 
 # Import Contacts
 
 Help the user import contacts into Nitrosend.
+
+## Migrating From Another Email Tool?
+
+If the contacts are coming out of another email tool (Klaviyo, Mailchimp,
+Brevo, ActiveCampaign, beehiiv, MailerLite, Kit, HubSpot, Shopify, Substack,
+Omnisend, GoHighLevel or any other), stop here and use the `migrate-account`
+skill (`/nitrosend:migrate-account`). A migration imports unsubscribes,
+bounces and complaints before any contact and checks the counts against the
+old tool. A plain contact import does neither, and a list exported from
+another tool can include people who opted out.
+
+Use this skill for everything else: a signup sheet, an event list, a handful
+of contacts, or a CSV the user collected themselves.
 
 ## Understand the Source
 
