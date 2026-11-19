@@ -38,7 +38,10 @@ Step 3. If this file and the live tool schema disagree, the tool wins.
 
 ## Step 1. Intake
 
-Call `nitro_get_status` and confirm the brand. Then ask, in one message:
+Call `nitro_get_status`. Every import lands in the brand the connection is
+on. If that is not the brand this migration is for, switch with
+`nitro_select_brand`, call `nitro_get_status` again and confirm the brand it
+reports before any file is uploaded. Then ask, in one message:
 
 1. Which tool are they moving from?
 2. List size, as the old tool counts it: subscribed, unsubscribed, bounced and
@@ -79,7 +82,7 @@ carries over, what does not, and the traps. Read it before Step 4:
 | beehiiv | Export files | `beehiiv` |
 | MailerLite | Export files | `mailerlite` |
 | Kit (ConvertKit) | Export files | `kit` |
-| HubSpot | Export files, then an optional connection | `hubspot` |
+| HubSpot | Export files | `hubspot` |
 | Shopify | Connect, plus suppression files | `shopify` |
 | Substack | Export files | `substack` |
 | Omnisend | Export files only | `omnisend` |
@@ -93,9 +96,21 @@ API key for that tool, and do not call its API, even if the person offers one.
 
 ## Step 4. Suppressions first
 
-Unsubscribes, bounces and complaints go in before any contact. Import each
-file with `nitro_import_contacts` (reserve with `upload`, PUT the bytes to
-`direct_upload.url`, start with `signed_id`), and say what the file is:
+Unsubscribes, bounces and complaints go in before any contact.
+
+**Baseline first.** The brand may already hold contacts and stops. Before the
+first import, record `pagination.total` from `nitro_query` for
+`entity: "contacts"` with `filters: { subscribed_email: true }`, the same with
+`false`, and `entity: "suppressions"` with `filters: { active: true }`. Every
+later check compares the change in these, not the total.
+
+**Prepare each file.** Work on a copy: remove every phone column, remove
+duplicate addresses, and keep each address exactly as exported.
+
+**Import** each file with `nitro_import_contacts`: reserve with `upload`, PUT
+the bytes to `direct_upload.url` with exactly the returned
+`direct_upload.headers`, check the PUT succeeded, then start with `signed_id`.
+Say what the file is:
 
 | File | `options` |
 |---|---|
@@ -108,38 +123,51 @@ addresses in this brand. If the tool's schema lists `options.file_role`, pass
 `unsubscribed`, `bounced` or `complained` instead. Never pass `start_flows`
 here.
 
-Count them: `nitro_query` with `entity: "suppressions"` and
-`filters: { active: true }` returns `pagination.total`.
+A file that mixes dead addresses with unsubscribes and cannot tell them apart
+is imported with `block`. Tell the person first. Where the old tool files
+complaints under unsubscribes, the person chooses between the two.
 
-**Gate:** the count is above zero and within 1% of the old tool's, or the
-person confirms in words that the old tool has none.
+**Check.** Poll each import with `nitro_query` (`entity: "imports"`,
+`filters: { id }`) until it is `complete`, and account for every failed row.
+Then look up ten addresses from each file, and any with a misspelled domain,
+with `nitro_query` (`entity: "suppressions"`, `filters: { email }`). Each must
+show a stop on exactly the address exported.
+
+**Gate:** every import is `complete`, the spot check passes, and the
+suppressions count rose by a number above zero that is within 1% of the old
+tool's total. A rise of zero passes only if the person confirms in words that
+the old tool has none.
 
 ## Step 5. Contacts: dry run, then import
 
-1. Count the rows in each contacts file and compare them with Step 1.
-2. Upload the file and call `nitro_import_contacts` with the `signed_id` and
-   `dry_run: true`. It writes nothing. If it returns `source_profile`,
-   Nitrosend recognized the export and mapped it: read the mapping back.
-3. Show the person the `columns` mapping and the list each file goes into.
-4. Import with `options: { list_ids: [...] }`. Leave `start_flows` off.
+1. Prepare each contacts file as in Step 4: a copy, no phone columns, no
+   duplicates. Count the distinct addresses and compare them with Step 1.
+2. Write the `columns` mapping from the file's header row. Map `phone` to
+   `null`.
+3. Upload the file and call `nitro_import_contacts` with the `signed_id` and
+   `dry_run: true`. It confirms the upload is usable and writes nothing. It
+   does not check rows. If it returns `source_profile`, Nitrosend recognized
+   the export: read the mapping it returns back.
+4. Show the person the mapping and the list each file goes into, plus one
+   fixed list that holds everyone migrated.
+5. Import, passing the same `columns` and `options: { list_ids: [...] }`.
+   Leave `start_flows` off.
 
 A new contact with an email address is subscribed unless its row or file says
 otherwise. So a contacts file holds only people who subscribed. People who
-never subscribed or never confirmed are not subscribers. Skip the phone column
-unless SMS has been dealt with in Step 2.
+never subscribed or never confirmed are not subscribers. Files of people who
+clicked or who received a flow are not contacts files: cut them down to
+contacts you already imported and add those to a list with
+`nitro_manage_audience`. Never import them as they came.
 
-Then compare with the old tool's totals:
+When every import is `complete`, account for every failed row. Then compare
+the change since the baseline with the old tool's totals: subscribed, not
+subscribed and suppressions. If an import's result carries `import_summary`,
+check its counts for that file too.
 
-- Subscribed: `nitro_query`, `entity: "contacts"`,
-  `filters: { subscribed_email: true }`, `pagination.total`.
-- Not subscribed: the same with `subscribed_email: false`.
-- Suppressed: the count from Step 4.
-
-If an import's result carries `import_summary`, use its counts for that file.
-
-**Gate:** each number is within 1% of the old tool's. On a mismatch above 1%,
-stop and offer a person. Do not send, and do not fix it by resubscribing or
-deleting.
+**Gate:** each number is within 1% of the old tool's, and every address in a
+suppression file is still out. On a mismatch above 1%, stop and offer a
+person. Do not send, and do not fix it by resubscribing or deleting.
 
 ## Step 6. Engagement and history
 
@@ -150,9 +178,10 @@ clicks over opens.
 
 If `nitro_import_history` is in your tool list, save campaign, flow, template,
 segment and form history with `operation: "write_items"`, per subscriber
-snapshots with `"write_engagement"`, and read `"summary"` back. It is not
-available on every account. Without it, keep the exports with the person and
-write what worked into brand memory with `nitro_set_memory`.
+snapshots with `"write_engagement"`, and read `"summary"` back. Check the
+`written` and `skipped` counts on every write. It is not available on every
+account. Either way, keep the original exports with the person. Without the
+tool, also write what worked into brand memory with `nitro_set_memory`.
 
 **Gate:** the person confirms nothing they want is left behind, and you have
 the old tool's bounce, complaint, unsubscribe and click rates for the last 90
@@ -162,57 +191,87 @@ days.
 
 Register a sending subdomain with `nitro_manage_domains`
 (`operation: "add"`), show the DNS records, add them only with approval, and
-run `operation: "verify"` until SPF, DKIM and DMARC pass. One SPF record, one
-DMARC record. Leave the old tool's DNS records in place until the move is
-finished.
+run `operation: "verify"` until every record it marks as required passes and
+it reports `sender_ready`. Add only the records it asks for. Exactly one DMARC
+record. Leave the old tool's DNS records in place until the move is finished.
 
-**Gate:** `verify` passes and `nitro_get_status` shows a ready sender.
+**Gate:** `verify` passes with DMARC in place, and `nitro_get_status` shows a
+ready sender on that domain.
 
 ## Step 8. Rebuild forms, then flows, then templates
 
-1. **Forms:** prepare the Nitrosend signup form for each list. Do not publish
-   it until cutover.
-2. **Flows:** rebuild each one as a draft with `nitro_compose_flow`
-   (`composition_mode: "intent"`). A draft does not run.
-3. **Nobody gets a second welcome.** Keep people who already finished a flow
-   at the old tool out of its rebuilt version, and read that exclusion back.
+1. **Forms:** prepare the Nitrosend signup form for each list. Note whether
+   the old form made people confirm by email first, and if it did, build that
+   confirmation into the flow the list starts. Do not publish the form until
+   cutover.
+2. **Flows:** rebuild each one with `nitro_compose_flow`, starting with
+   `composition_mode: "intent"` and following each `next_call` until the flow
+   is saved as a draft. A draft does not run.
+3. **Nobody gets a second welcome.** Exclude the fixed migration list from
+   welcome and onboarding flows. For other flows, keep out the people who
+   already finished them at the old tool. Read each exclusion back.
 4. **Templates:** rebuild the ones still in use.
-5. Test every email with `nitro_review_delivery` and
-   `nitro_send_test_message`.
+5. Test every email: `nitro_review_delivery`, then `nitro_send_test_message`
+   for each message step with the flow's `revision_id` and the step's
+   `action_id`.
 
 **Gate:** every flow is a tested draft with its exclusion read back, and
 nothing is live.
 
 ## Step 9. Warmup
 
-Engaged contacts first, with a cap for each day. Build segments with
-`nitro_define_segment` from most to least engaged. Start inside the capacity
-`nitro_get_status` reports and never more than double the day before. After
-each send read `nitro_get_insights`: keep hard bounces under 2% and spam
-complaints under 0.1%, and stop if either is crossed. Every send in the plan
-still needs the person's go-ahead.
+Engaged contacts first, with a cap for each day.
 
-**Gate:** the plan is approved and the first send was inside both limits.
+1. Start inside the capacity `nitro_get_status` reports, and never more than
+   double the day before.
+2. Make each day's audience a real group: a saved segment
+   (`nitro_define_segment` with `preview_only: false` and a `name`) or a list
+   that holds that day's people and nobody already mailed. Check the recipient
+   count `nitro_review_delivery` reports against the cap.
+3. Verify old or unengaged addresses first. `nitro_manage_audience` with
+   `operation: "validate"` and `dry_run: true` returns a quote. Run it only
+   when the person approves the spend.
+4. Before every send, export the old tool's unsubscribes, bounces and
+   complaints again and import them as in Step 4.
+5. After each send read `nitro_get_insights`. Keep the bounce rate under 2%
+   and spam complaints under 0.1%. Stop if either is crossed.
+
+Every send in the plan still needs the person's go-ahead.
+
+**Gate:** the plan is approved and the first send was at or under its cap and
+inside both limits.
 
 ## Step 10. Cutover
 
-1. Swap the signup forms and test one.
-2. Pause the old tool's flows, then switch each Nitrosend flow on
-   (`nitro_control_delivery`, `approve` then `live`).
-3. Run both for 14 days. The old tool sends nothing new but stays connected.
-4. At day 7 and day 14, export the old tool's late unsubscribes, bounces and
-   complaints again and import them as in Step 4.
-5. Disconnect the old tool.
+1. List everything the old tool will still send: scheduled campaigns and
+   people partway through flows. The person decides what is canceled.
+2. Bring the lists level: import the old tool's latest unsubscribes, bounces
+   and complaints, and anyone who subscribed there since the first export.
+3. Swap the signup forms and, with the person's go-ahead, switch on the flows
+   they start in the same sitting (`nitro_control_delivery`, `approve` then
+   `live`). Test one real signup.
+4. Pause the old tool's flows, then switch on the rest of the Nitrosend flows.
+5. Run both for 14 days. The old tool sends nothing new, but its account stays
+   open so its unsubscribe links keep working.
+6. Before every send in those 14 days, and at day 7 and day 14, export the old
+   tool's late unsubscribes, bounces and complaints and import them as in
+   Step 4.
+7. Disconnect the old tool from the site, store and CRM. Do not disconnect
+   the store, CRM or payment connections that feed Nitrosend.
 
-**Gate:** forms swapped, old flows off, 14 days run, the final re-export
-imported.
+**Gate:** nothing unapproved is scheduled at the old tool, forms swapped, old
+flows off, 14 days run, the final re-export imported.
 
 ## Step 11. Day 7 and day 30 checks
 
-Run `nitro_get_insights` with `scope: "account"` and `period: "7d"`, then
-`"30d"`. Compare bounce, complaint, unsubscribe and click rates with the
-baseline from Step 6. Confirm every flow is live and sending, new signups reach
-their list, and the counts still reconcile. Report each check as a short table.
+Count both from the cutover date. Day 7 falls inside the 14 day run: do it
+then.
 
-**Gate:** bounces under 2%, complaints under 0.1% and nothing materially worse
-than the baseline. If not, stop new sends and offer a person.
+Run `nitro_get_insights` with `scope: "account"` and `period: "7d"`, and at
+day 30 with `period: "30d"`. Compare bounce, complaint, unsubscribe and click
+rates with the baseline from Step 6. Confirm every flow is live and sending,
+new signups reach their list, and the counts still reconcile. Report each
+check as a short table.
+
+**Gate:** bounce rate under 2%, complaints under 0.1% and nothing materially
+worse than the baseline. If not, stop new sends and offer a person.
