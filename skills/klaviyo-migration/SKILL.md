@@ -17,7 +17,12 @@ Move a user from Klaviyo to Nitrosend.
 2. Import with `nitro_import_contacts` with `upload`, PUT the file, then call
    `nitro_import_contacts` again with the returned `signed_id` and a column mapping.
    Up to 100 records can go through `nitro_import_contacts` with `records`.
-3. Import suppressions as unsubscribed before any sending, and confirm
+3. An import subscribes new contacts unless a column says otherwise. Keep
+   Klaviyo's Email Marketing Consent column in the file (map it to
+   `email_status` in the column mapping if it isn't picked up), and give a
+   suppression export that has no status column an `Unsubscribed` column set
+   to `true` before importing it. Never import suppressed or unsubscribed
+   profiles as plain addresses. Do this before any sending, and confirm
    subscription status with `nitro_query`.
 4. Imports don't start flows unless the user turns on Start flows.
 5. Rebuild Klaviyo flows (welcome series, abandoned cart, browse abandonment,

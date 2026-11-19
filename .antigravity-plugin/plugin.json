@@ -2,7 +2,7 @@
   "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "nitrosend",
   "displayName": "Nitrosend",
-  "description": "AI email marketing in Claude: newsletters, email campaigns, automation flows, transactional emails and a shared inbox. Integrate with Shopify, Mailchimp, ActiveCampaign, Resend, and more in one chat.",
+  "description": "AI email marketing: newsletters, email campaigns, automation flows, transactional emails and a shared inbox. Integrate with Shopify, Mailchimp, ActiveCampaign, Resend, and more in one chat.",
   "version": "2.3.0",
   "logo": "assets/icon.svg",
   "author": {

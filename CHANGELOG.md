@@ -3,7 +3,7 @@
 ## 2.3.0 (2026-11-19)
 
 - The directory listing is written for search: a new display name and
-  description, 76 discovery keywords, and a README that opens with what
+  description, 75 discovery keywords, and a README that opens with what
   Nitrosend does. The marketplace entry gains a category and tags.
 - 13 new skills named after what people ask for: `email-brand-kit`,
   `welcome-email-series`, `abandoned-cart-emails`, `signup-form-builder`,

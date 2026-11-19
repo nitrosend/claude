@@ -20,4 +20,4 @@ Read and answer email in Nitrosend inboxes.
 - Start a new conversation with `nitro_inbox_action(command: "compose")`.
 - A read must not mark mail read or change triage unless the user asks.
 - For automatic handling, build a reply-triggered flow with the
-  `email-automation-flows` skill (categorise reply, reply to email).
+  `build-flow` skill (categorise reply, reply to email).

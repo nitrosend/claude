@@ -21,7 +21,7 @@ server with OAuth, and adds guided skills for each job:
   email lists, segments, tags and email verification.
 - **Migrations and integrations:** Mailchimp and ActiveCampaign connectors,
   CSV import from Klaviyo, MailerLite, Brevo, Kit (ConvertKit), beehiiv or
-  Substack, and native Shopify, Stripe, HubSpot and Attio integrations.
+  Substack, and native Shopify, HubSpot and Attio integrations.
 - **Shared inbox, deliverability and analytics:** replies with reply-all, Cc
   and Bcc, SPF, DKIM and DMARC checks, and email analytics with what to fix
   first.
