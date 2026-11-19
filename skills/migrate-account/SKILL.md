@@ -16,9 +16,12 @@ Run a migration in eleven steps. Each step ends in a gate. Do not start the
 next step until the gate passes. If a gate fails, stop, say what failed, and
 offer a person (Step 2).
 
-The full version of this skill, with one playbook per source tool, lives at
-<https://nitrosend.com/skills/migrate.md>. Read the playbook for the source in
-Step 3. If this file and the live tool schema disagree, the tool wins.
+**Read the full skill first:** <https://nitrosend.com/skills/migrate.md>.
+Follow it, along with the playbook for the source (Step 3). This file is the
+short form: it keeps the order, the gates and the rules in view, and it leaves
+out detail the full skill carries. If you cannot fetch the full skill, say so
+before you start. If this file and the live tool schema disagree, the tool
+wins.
 
 ## Rules for the whole job
 
@@ -92,6 +95,21 @@ carries over, what does not, and the traps. Read it before Step 4:
 Where the route says **export files only**, do not ask for, accept or use an
 API key for that tool, and do not call its API, even if the person offers one.
 
+Three stops on connecting. The playbooks have the detail:
+
+- **Mailchimp:** the connection syncs every audience in the account, so there
+  is no per-audience choice. If any audience must not come across as it is,
+  such as one that uses marketing permission fields, do not connect. Export
+  the wanted audiences as files.
+- **ActiveCampaign:** if any list exclusion covers only some lists, do not
+  connect. Use the filtered Active exports as the contacts files.
+- **Shopify:** do not import customers who have not opted in as unsubscribed.
+  The connection brings them in as not subscribed, and a later opt-in at the
+  store can still land.
+
+HubSpot moves by files: the contacts who agreed to marketing email. Connecting
+HubSpot is a separate choice for ongoing CRM sync, not a way to move the list.
+
 **Gate:** the playbook is read and the person has the exports it lists.
 
 ## Step 4. Suppressions first
@@ -136,8 +154,11 @@ show a stop that applies to this brand: on marketing for an unsubscribe, on
 all email for a bounce, a complaint or a blocked file.
 
 **Gate:** every import is `complete`, the spot check passes, and the rows
-imported are above zero and within 1% of the old tool's total. Zero passes only
-if the person confirms in words that the old tool has none.
+imported are above zero and within 1% of the old tool's total for
+unsubscribes, bounces and complaints together. People who never subscribed or
+never confirmed are not part of that total: they are counted in the not
+subscribed bucket in Step 5. Zero passes only if the person confirms in words
+that the old tool has none.
 
 ## Step 5. Contacts: dry run, then import
 
@@ -149,13 +170,18 @@ if the person confirms in words that the old tool has none.
    `null`.
 3. Upload the file and call `nitro_import_contacts` with the `signed_id` and
    `dry_run: true`. It confirms the upload exists and is within limits, and
-   writes nothing. It does not read the rows. If it returns `source_profile`, Nitrosend recognized
-   the export: read the mapping it returns back.
+   writes nothing. It does not read the rows. If it returns `source_profile`,
+   Nitrosend recognized the export: read the mapping it returns back.
 4. Show the person the mapping and the list each file goes into, plus one
    fixed list that holds everyone migrated. Use new lists with no live flow on
    them: adding people to a list can start a flow that begins from it.
 5. Import, passing the same `columns` and `options: { list_ids: [...] }`.
    Leave `start_flows` off.
+6. **On a connect route** (Mailchimp, ActiveCampaign, Shopify) the sync brings
+   the contacts but does not fill the migration list. When the sync has
+   finished, add the addresses from the source's subscribed export to that
+   list with `nitro_manage_audience` (`manage_list`, `add_contacts`). The
+   count check below reads that list.
 
 A new contact with an email address is subscribed unless its row or file says
 otherwise. So a contacts file holds only people who subscribed. People who
@@ -165,21 +191,29 @@ contacts you already imported and add those to a list with
 `nitro_manage_audience`. Never import them as they came.
 
 When every import is `complete`, account for every failed row. Then compare
-with the old tool's totals, counting distinct addresses:
+three buckets with the old tool's totals, each one on its own, counting
+distinct addresses. Never add them together.
 
 - Subscribed: `nitro_query`, `entity: "contacts"`,
   `filters: { list_id: <migration list>, subscribed_email: true }`,
-  `pagination.total`.
-- Not subscribed: the same with `subscribed_email: false`. Anyone here was in
-  a contacts file and is also opted out: list them for the person.
-- Suppressed: the rows imported in Step 4.
+  `pagination.total`, against the old tool's subscribed total.
+- Not subscribed: people this migration brought who are not subscribed and
+  were in no Step 4 file, against the old tool's never subscribed and
+  unconfirmed total if those people came across, otherwise zero. A never
+  subscribed row counts here, however it came in. Anyone on the migration list
+  with `subscribed_email: false` did not come out subscribed: list them for
+  the person.
+- Suppressed: the rows imported in Step 4, against the old tool's
+  unsubscribes, bounces and complaints.
 
 If an import's result carries `import_summary`, check its counts for that
 file too. Repeat the Step 4 spot check.
 
-**Gate:** subscribed and suppressed are each within 1% of the old tool's, and
-every address in a suppression file is still out. On a mismatch above 1%, stop
-and offer a person. Do not send, and do not fix it by resubscribing or
+**Gate:** subscribed is within 1% of the old tool's subscribed total, the
+suppressed bucket still matches what passed the Step 4 gate, nobody unexpected
+is not subscribed, and every address in a suppression file is still out. On a
+subscribed mismatch above 1%, stop and offer a person. Subscribed being higher
+in Nitrosend than in the old tool is the serious case. Do not send, and do not fix it by resubscribing or
 deleting.
 
 ## Step 6. Engagement and history
@@ -193,8 +227,8 @@ If `nitro_import_history` is in your tool list, save campaign, flow, template,
 segment and form history with `operation: "write_items"`, per subscriber
 snapshots with `"write_engagement"`, and read `"summary"` back. Both writes
 need `provider` and `workspace_key`. On every write read `written` and the
-`skipped` list, which gives each unsaved row's `index` and `code`. It is not available on every
-account. Either way, keep the original exports with the person. Without the
+`skipped` list, which gives each unsaved row's `index` and `code`. It is not
+available on every account. Either way, keep the original exports with the person. Without the
 tool, also write what worked into brand memory with `nitro_set_memory`.
 
 **Gate:** the person confirms nothing they want is left behind, and you have
@@ -206,8 +240,14 @@ days.
 Register a sending subdomain with `nitro_manage_domains`
 (`operation: "add"`), show the DNS records, add them only with approval, and
 run `operation: "verify"` until every record it marks as required passes and
-it reports `sender_ready`. Add only the records it asks for. Exactly one DMARC
-record. Leave the old tool's DNS records in place until the move is finished.
+it reports `sender_ready`. Add only the records it asks for. Check there is
+exactly one DMARC record and that no SPF record was duplicated. Never touch
+the apex MX records. Leave the old tool's DNS records in place until the old
+account is closed.
+
+Then set the sender: make an address on the verified domain the brand's sender
+with `nitro_configure_account`, with a From name people will recognize and a
+reply-to inbox someone reads. Check `nitro_get_status` reports that sender.
 
 **Gate:** `verify` passes with DMARC in place, and `nitro_get_status` shows a
 ready sender on that domain.
@@ -270,15 +310,19 @@ inside both limits.
 4. Bring the lists level, now nobody can join at the old tool: import its
    latest unsubscribes, bounces and complaints, and anyone who subscribed
    there since the first export.
-5. Pause the old tool's flows, then switch on the rest of the Nitrosend flows.
+5. Pause the old tool's flows. Switch on each remaining Nitrosend flow only
+   after its old twin is off, and only with the person's go-ahead.
 6. Run both for 14 days. The old tool sends nothing new, but its account stays
    open so its unsubscribe links keep working.
 7. Every day of those 14 days while a live flow can email migrated contacts,
    before every campaign, and at day 7 and day 14, export the old tool's late
    unsubscribes, bounces and complaints and import them as in Step 4. Keep
    doing it before every campaign until the old account is closed.
-8. Disconnect the old tool from the site, store and CRM. Do not disconnect
-   the store, CRM or payment connections that feed Nitrosend.
+8. After day 14 and a final re-export, disconnect the old tool from the site,
+   store and CRM. Do not disconnect the store, CRM or payment connections that
+   feed Nitrosend. Keep the old account open, on its cheapest plan, for as
+   long as its unsubscribe links must still work, and leave its DNS records in
+   place until it is closed.
 
 **Gate:** nothing unapproved is scheduled at the old tool, forms swapped, old
 flows off, 14 days run, the final re-export imported.
@@ -291,8 +335,12 @@ then.
 Run `nitro_get_insights` with `scope: "account"` and `period: "7d"`, and at
 day 30 with `period: "30d"`. Compare bounce, complaint, unsubscribe and click
 rates with the baseline from Step 6. Confirm every flow is live and sending,
-new signups reach their list, and the counts still reconcile. Report each
-check as a short table.
+new signups reach their list, and the counts still reconcile.
+
+At day 7 and again at day 30, export the old tool's unsubscribes, bounces and
+complaints once more and import them as in Step 4. At day 30, also check the
+old tool is disconnected from the site, store and CRM and sends nothing.
+Report each check as a short table.
 
 **Gate:** bounce rate under 2%, complaints under 0.1% and nothing materially
 worse than the baseline. If not, stop new sends and offer a person.
