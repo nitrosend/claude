@@ -1,11 +1,13 @@
 ---
 name: send-transactional
 description: >
-  Send transactional emails or SMS for app-triggered communications: receipts,
-  password resets, OTPs, order confirmations, shipping notifications, system
-  alerts. Single recipient, immediate delivery, no campaign or approval needed.
-  Use when: "transactional email", "receipt email", "password reset email",
-  "send notification email", "order confirmation", "OTP email", or "system email".
+  Send transactional emails or SMS for app-triggered communications:
+  receipts, password resets, magic links, OTPs, order confirmations,
+  shipping notifications and system alerts, by REST API, SDK or Events API.
+  Single recipient, immediate delivery, no campaign or approval needed. Use
+  when: "transactional email", "email API", "receipt email", "password reset
+  email", "send notification email", "order confirmation", "OTP email", or
+  "system email".
 ---
 
 # Send Transactional

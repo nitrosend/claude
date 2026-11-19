@@ -1,11 +1,13 @@
 ---
 name: build-flow
 description: >
-  Build email/SMS automation flows with triggers, steps, waits, splits, and
-  webhooks. Covers welcome series, cart abandonment, post-purchase, win-back,
-  browse abandonment, and custom event-driven flows. Use when: "automation
-  flow", "welcome series", "drip campaign", "cart abandonment flow",
-  "win-back flow", "build flow", or "email sequence".
+  Build email and SMS automation flows with triggers, steps, waits, splits
+  and webhooks: marketing automation and email automation for welcome
+  series, onboarding emails, abandoned cart and browse abandonment,
+  post-purchase, review requests, win-back, re-engagement, drip and nurture
+  sequences, and custom event-driven flows. Use when: "automation flow",
+  "welcome series", "drip campaign", "cart abandonment flow", "win-back
+  flow", "lifecycle emails", "build flow", or "email sequence".
 ---
 
 # Build Flow

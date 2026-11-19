@@ -1,8 +1,32 @@
-# Nitrosend Claude Plugin
+# Nitrosend: AI email marketing for Claude
 
-Use Nitrosend from Claude through the production remote MCP server. The plugin
-adds guided workflows for account setup, templates, campaigns, flows,
-transactional messages, contacts, and analytics.
+Nitrosend is a full AI email suite for Claude: email marketing, newsletters,
+transactional email, a shared inbox and marketing automation, run from one
+conversation. Build an email brand kit from your website, then write, design
+and send newsletters and email campaigns, build automated email flows (welcome
+series, abandoned cart, win-back, post-purchase, drip and nurture), send
+receipts and password resets from your app, and read and reply to email.
+
+This plugin connects Claude Code, Cowork and Claude to the Nitrosend remote MCP
+server with OAuth, and adds guided skills for each job:
+
+- **Newsletters and email campaigns:** on-brand email templates, subject
+  lines, test emails, then approval, scheduling or sending to a list or segment.
+- **Marketing automation:** welcome email series, abandoned cart and browse
+  abandonment reminders, win-back, post-purchase, drip and nurture flows.
+- **Transactional email:** receipts, alerts, magic links and password resets
+  by REST API, SDK or Events API, on Nitrosend or your own SendGrid, Amazon
+  SES, Postmark, Resend or Mailgun account.
+- **Signup forms and contacts:** signup forms for any website, contacts,
+  email lists, segments, tags and email verification.
+- **Migrations and integrations:** Mailchimp and ActiveCampaign connectors,
+  CSV import from Klaviyo, MailerLite, Brevo, Kit (ConvertKit), beehiiv or
+  Substack, and native Shopify, HubSpot and Attio integrations.
+- **Shared inbox, deliverability and analytics:** replies with reply-all, Cc
+  and Bcc, SPF, DKIM and DMARC checks, and email analytics with what to fix
+  first.
+
+Nothing is sent to your audience until you approve it.
 
 ## Install
 
@@ -111,6 +135,19 @@ SendGrid. The connected tool schema remains the authority if that set changes.
 | Build Flow | `/nitrosend:build-flow` | Build and publish event-driven automation |
 | Import Contacts | `/nitrosend:import-contacts` | Import consented contacts |
 | Analytics | `/nitrosend:nitrosend-analytics` | Inspect account, campaign, flow, or message performance |
+| Email Brand Kit | `/nitrosend:email-brand-kit` | Build the Brand Kit from a website |
+| Welcome Email Series | `/nitrosend:welcome-email-series` | Welcome emails for new subscribers or customers |
+| Abandoned Cart Emails | `/nitrosend:abandoned-cart-emails` | Cart, checkout and browse abandonment reminders |
+| Signup Form Builder | `/nitrosend:signup-form-builder` | Signup form snippet for any website |
+| Mailchimp Migration | `/nitrosend:mailchimp-migration` | Move audiences from Mailchimp with consent kept |
+| Klaviyo Migration | `/nitrosend:klaviyo-migration` | Import a Klaviyo export and rebuild its flows |
+| Email Platform Migration | `/nitrosend:email-platform-migration` | ActiveCampaign connector or CSV from other platforms |
+| Contacts and Segments | `/nitrosend:contacts-and-segments` | Lists, tags, segments and email verification |
+| Deliverability Check | `/nitrosend:email-deliverability-check` | Sending domain, SPF, DKIM, DMARC and bounces |
+| Shared Email Inbox | `/nitrosend:shared-email-inbox` | Read and reply to inbox conversations |
+| Shopify Email Marketing | `/nitrosend:shopify-email-marketing` | Shopify customers and store activity in email |
+| Email Integrations | `/nitrosend:email-integrations` | Native integrations and the Events API |
+| Agency Client Email | `/nitrosend:agency-client-email` | Work across client accounts and brands |
 
 ### Email Marketer Agent
 

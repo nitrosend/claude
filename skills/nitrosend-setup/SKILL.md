@@ -1,12 +1,13 @@
 ---
 name: nitrosend-setup
 description: >
-  Guided Nitrosend onboarding. Walks through remote MCP connection, Brand Kit
-  identity setup, brand-subdomain preparation or customer-domain verification,
-  and sender defaults. Also
-  offers to configure proactive analytics (daily/weekly/monthly reports).
-  Use when: "set up nitrosend", "configure email", "onboard", "get started
-  with nitrosend", or when nitro_get_status shows incomplete onboarding.
+  Guided Nitrosend email marketing setup. Walks through remote MCP
+  connection, the Brand Kit from the website, brand-subdomain preparation or
+  customer sending-domain verification (SPF, DKIM, DMARC), and sender
+  defaults. Also offers to configure proactive analytics (daily, weekly or
+  monthly reports). Use when: "set up nitrosend", "configure email",
+  "onboard", "get started with nitrosend", or when nitro_get_status shows
+  incomplete onboarding.
 ---
 
 # Nitrosend Setup
