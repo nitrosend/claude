@@ -1,10 +1,12 @@
 ---
 name: nitrosend-analytics
 description: >
-  Inspect Nitrosend account, campaign, flow, or message performance and turn
-  live metrics into bounded recommendations. Use when: "email analytics",
-  "campaign performance", "how are my emails doing", "email insights",
-  "check my stats", "open rate", or "deliverability report".
+  Inspect Nitrosend email marketing analytics for the account, a campaign, a
+  newsletter, a flow or a message: opens, clicks, bounces, unsubscribes,
+  trends and benchmarks, turned into bounded recommendations on what to fix
+  first. Use when: "email analytics", "campaign performance", "how are my
+  emails doing", "email insights", "email report", "check my stats", "open
+  rate", or "deliverability report".
 ---
 
 # Analytics

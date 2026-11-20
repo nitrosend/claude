@@ -1,10 +1,11 @@
 ---
 name: compose-email
 description: >
-  Create or edit email templates with Nitrosend's section-based designer.
-  Guides through layout, content, and brand styling. Supports preview and
-  test sends. Use when: "compose email", "design template", "create email",
-  "email template", "edit template", or "update email design".
+  Create or edit email templates with Nitrosend's section-based email
+  designer: responsive, on-brand email design from the Brand Kit, email
+  copywriting, subject lines and preview text, with preview and test sends.
+  Use when: "compose email", "design template", "create email", "email
+  template", "email design", "edit template", or "update email design".
 ---
 
 # Compose Email
