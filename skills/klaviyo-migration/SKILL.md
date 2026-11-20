@@ -10,6 +10,10 @@ description: >
 
 # Klaviyo migration
 
+For a full move (opt-outs first, a count check, engagement and history,
+domain, flows, warmup and cutover), use the `migrate-account` skill
+(`/nitrosend:migrate-account`).
+
 Move a user from Klaviyo to Nitrosend.
 
 1. Ask the user to export profiles (with list membership and consent) and

@@ -10,6 +10,10 @@ description: >
 
 # Email platform migration
 
+For a full move (opt-outs first, a count check, engagement and history,
+domain, flows, warmup and cutover), use the `migrate-account` skill
+(`/nitrosend:migrate-account`).
+
 Move contacts, lists, tags and custom fields from MailerLite, ActiveCampaign,
 HubSpot, Brevo (Sendinblue), Kit (ConvertKit), beehiiv, Substack, Constant
 Contact, Omnisend, Drip, Campaign Monitor, AWeber, GetResponse or any CSV

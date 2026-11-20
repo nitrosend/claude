@@ -134,6 +134,7 @@ SendGrid. The connected tool schema remains the authority if that set changes.
 | Send Transactional | `/nitrosend:send-transactional` | Send or integrate one-recipient application messages |
 | Build Flow | `/nitrosend:build-flow` | Build and publish event-driven automation |
 | Import Contacts | `/nitrosend:import-contacts` | Import consented contacts |
+| Migrate Account | `/nitrosend:migrate-account` | Move from another email tool, suppressions first |
 | Analytics | `/nitrosend:nitrosend-analytics` | Inspect account, campaign, flow, or message performance |
 | Email Brand Kit | `/nitrosend:email-brand-kit` | Build the Brand Kit from a website |
 | Welcome Email Series | `/nitrosend:welcome-email-series` | Welcome emails for new subscribers or customers |

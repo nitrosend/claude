@@ -10,6 +10,10 @@ description: >
 
 # Mailchimp migration
 
+For a full move (opt-outs first, a count check, engagement and history,
+domain, flows, warmup and cutover), use the `migrate-account` skill
+(`/nitrosend:migrate-account`).
+
 Move a user from Mailchimp to Nitrosend without losing consent.
 
 1. The Mailchimp connector in Nitrosend Integrations imports audiences as
