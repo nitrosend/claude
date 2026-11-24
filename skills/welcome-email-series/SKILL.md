@@ -11,6 +11,8 @@ description: >
 
 Build the first emails a new subscriber or customer receives.
 
+Examples: [Welcome emails](https://nitrosend.com/email-examples/welcome)
+
 1. Check existing flows with `nitro_query` so you don't duplicate a welcome
    series the brand already has. (`brand.welcome_email` in status is the
    owner's onboarding preview, not a subscriber series.)

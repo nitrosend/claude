@@ -11,6 +11,8 @@ description: >
 
 Find out why email isn't reaching the inbox and fix it.
 
+Guide: [Email deliverability](https://nitrosend.com/email-deliverability)
+
 1. Read sender and delivery state from `nitro_get_status`: `delivery.reason_code`,
    `issues` and `retry_at`. Report pauses exactly as returned.
 2. For a customer-owned domain, add it with `nitro_manage_domains` (`operation: "add"`) and show

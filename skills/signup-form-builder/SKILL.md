@@ -13,6 +13,8 @@ description: >
 Give the user a signup form for their website so new subscribers land on a
 Nitrosend list.
 
+Guide: [Website signup forms](https://docs.nitrosend.com/guides/website-signup-forms)
+
 1. Resolve or create the destination list (`nitro_query`,
    `nitro_manage_audience` (`operation: "manage_list"`, `action: "create"`)).
 2. The embed snippet uses the brand's public website key (`wpkey_live_…`),

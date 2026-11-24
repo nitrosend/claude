@@ -13,6 +13,8 @@ Turn the user's website into the Brand Kit every Nitrosend email is designed
 from: logo, brand colours, heading and body fonts, company description and
 tone of voice.
 
+Guide: [Brand Kit and AI Memory](https://docs.nitrosend.com/integrations/mcp-brand-kit-memory)
+
 1. Ask for the website if you don't have it.
 2. Call `nitro_set_brand_kit` with one stable idempotency key to scan and save
    it. With `dry_run: true`, keep the returned `scan_id` and do not claim the
