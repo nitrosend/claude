@@ -4,7 +4,8 @@ description: >
   Send transactional emails or SMS for app-triggered communications:
   receipts, password resets, magic links, OTPs, order confirmations,
   shipping notifications and system alerts, by REST API, SDK or Events API.
-  Single recipient, immediate delivery, no campaign or approval needed. Use
+  Single recipient, immediate delivery, no campaign needed; confirm with the
+  user or dry-run before a live send. Use
   when: "transactional email", "email API", "receipt email", "password reset
   email", "send notification email", "order confirmation", "OTP email", or
   "system email".
@@ -25,6 +26,12 @@ Common transactional email types:
 - **Invoice/receipt**: Payment confirmation
 
 ## Design Approach
+
+### Before Any Live Send
+
+Confirm the recipient and content with the user, or run `dry_run: true`,
+before a live `nitro_send_message`. A live send goes out immediately and
+can't be recalled.
 
 ### Quick Send (Plain Text)
 For a one-off send from Claude over MCP, use `nitro_send_message`:
