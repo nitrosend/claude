@@ -12,6 +12,8 @@ description: >
 Recover lost sales for an online store with abandoned cart, abandoned checkout
 and browse abandonment reminders, plus post-purchase and win-back emails.
 
+Examples: [Abandoned cart emails](https://nitrosend.com/email-examples/abandoned-cart)
+
 1. Check the store connection in `nitro_get_status`. Shopify connects from
    Integrations in the Nitrosend app; other stores send events through the
    Events API. Don't promise a trigger the account doesn't receive.

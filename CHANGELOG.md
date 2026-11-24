@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.3.1 (2026-11-24)
+
+- The migration skills bring the old platform's opt-outs across first, as
+  the public migration FAQ does. The agent sends the import link from
+  `nitro_get_setup_link`, the user uploads the unsubscribed file with
+  Unsubscribe all from marketing and the bounced and spam complaint files
+  with Block all email delivery, and the agent spot-checks the result with
+  `nitro_query` before any contact is imported or a source is connected.
+  Files go in with phone columns removed, file imports take only the people
+  who subscribed, one file per list, and opt-outs are imported again before
+  every send while the old platform is still in use. Shopify joins Mailchimp
+  and ActiveCampaign as a connector route. `import-contacts` and
+  `shopify-email-marketing` send a move from another email tool to these
+  skills.
+- Each of the 13 skills added in 2.3.0 links to the Nitrosend guide or
+  examples for its job.
+
 ## 2.3.0 (2026-11-19)
 
 - The directory listing is written for search: a new display name and

@@ -11,10 +11,14 @@ description: >
 
 Run email marketing for a Shopify store.
 
-1. Shopify connects from Integrations in the Nitrosend app. It imports
-   customers with their Shopify marketing consent (others arrive unsubscribed),
-   keeps products and customer details up to date, and records checkouts,
-   orders and refunds as events.
+Guide: [Shopify email marketing](https://nitrosend.com/shopify-email-marketing)
+
+1. If the store is moving from another email tool, bring that tool's opt-outs
+   across before connecting (see `klaviyo-migration` or
+   `email-platform-migration`). Shopify then connects from Integrations in the
+   Nitrosend app. It imports customers with their Shopify marketing consent
+   (others arrive unsubscribed), keeps products and customer details up to
+   date, and records checkouts, orders and refunds as events.
 2. Build segments from store activity with `nitro_define_segment` (buyers,
    repeat customers, lapsed customers).
 3. Build the core flows as drafts: welcome series, abandoned cart, post-purchase

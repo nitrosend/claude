@@ -12,6 +12,8 @@ description: >
 
 Run email marketing for several clients or brands.
 
+Guide: [Agency email marketing](https://nitrosend.com/agency-email-marketing)
+
 1. `nitro_get_status` lists the accounts and brands this connection can reach.
    Ask which client to work on, then `nitro_select_account` and
    `nitro_select_brand`. Never infer the target from the last one used.
