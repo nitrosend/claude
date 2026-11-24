@@ -3,7 +3,7 @@
   "name": "nitrosend",
   "displayName": "Nitrosend",
   "description": "AI email marketing: newsletters, email campaigns, automation flows, transactional emails and a shared inbox. Integrate with Shopify, Mailchimp, ActiveCampaign, Resend, and more in one chat.",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "logo": "assets/icon.svg",
   "author": {
     "name": "Nitrosend",
