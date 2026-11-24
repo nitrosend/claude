@@ -13,6 +13,10 @@ description: >
 
 Help the user import contacts into Nitrosend.
 
+If the contacts are moving from another email tool, follow
+`email-platform-migration` (or `klaviyo-migration`, `mailchimp-migration`)
+first: the old tool's opt-outs go in before any contact is imported.
+
 ## Understand the Source
 
 Ask where contacts are coming from:

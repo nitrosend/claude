@@ -12,19 +12,36 @@ description: >
 
 Move a user from Klaviyo to Nitrosend.
 
-1. Ask the user to export profiles (with list membership and consent) and
-   their suppressed or unsubscribed profiles from Klaviyo as CSV.
-2. Import with `nitro_import_contacts` with `upload`, PUT the file, then call
-   `nitro_import_contacts` again with the returned `signed_id` and a column mapping.
-   Up to 100 records can go through `nitro_import_contacts` with `records`.
-3. An import subscribes new contacts unless a column says otherwise. Keep
-   Klaviyo's Email Marketing Consent column in the file (map it to
-   `email_status` in the column mapping if it isn't picked up), and give a
-   suppression export that has no status column an `Unsubscribed` column set
-   to `true` before importing it. Never import suppressed or unsubscribed
-   profiles as plain addresses. Do this before any sending, and confirm
-   subscription status with `nitro_query`.
-4. Imports don't start flows unless the user turns on Start flows.
+Guide: [migration FAQ](https://docs.nitrosend.com/faq#contacts-and-migration)
+
+1. Opt-outs first. Ask the user to export Klaviyo's suppressed profiles
+   (Audience, Profiles, View suppressed profiles) as CSV. That file mixes
+   unsubscribes, bounces and spam complaints, so split it by reason, and
+   remove any phone columns.
+2. Send the user the import link (`nitro_get_setup_link` with
+   `purpose: "migrate"` and `provider: "klaviyo"`) and have them choose Upload
+   a CSV for each file: Unsubscribe all from marketing for the unsubscribes,
+   Block all email delivery for every other suppressed profile. Don't import
+   these files yourself with `nitro_import_contacts`. When they finish,
+   spot-check a few addresses from each file with `nitro_query` (`entity:
+   "suppressions"`, `filters: { email: <address>, blocking: true }`): every
+   address must come back, with `blocks: "all"` for the bounce, complaint and
+   other suppression files. If an address is missing, or blocks only marketing
+   where it should block all email, stop and tell the user.
+3. Then ask for a CSV of the profiles who subscribed to email, one export per
+   list or segment (open it in Klaviyo and choose Export to CSV), with phone
+   columns removed and the Email Marketing Consent column left in and
+   unmapped: the import reads it and keeps anyone marked unsubscribed or never
+   subscribed out of marketing. Import each into its list with
+   `nitro_import_contacts`: reserve with `upload`, PUT the file to the
+   returned URL with its headers, then call it again with the `signed_id`,
+   `columns` and `options.list_ids`. The user can upload them from the same
+   link instead. Leave out anyone who never subscribed. An import subscribes
+   the new contacts it creates, so never import a whole account.
+4. Imports don't start flows unless the user turns on Start flows. Confirm
+   subscribed, unsubscribed and blocked counts with `nitro_query` before any
+   send. While Klaviyo is still in use, have the user import its new opt-outs
+   again before every Nitrosend send.
 5. Rebuild Klaviyo flows (welcome series, abandoned cart, browse abandonment,
    post-purchase, win-back) with `nitro_compose_flow` as inactive drafts, and
    connect Shopify in Integrations for store events.

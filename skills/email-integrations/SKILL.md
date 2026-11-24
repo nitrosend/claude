@@ -12,6 +12,11 @@ description: >
 
 Connect the tools that should trigger emails or update contacts.
 
+Guides: [Shopify](https://docs.nitrosend.com/integrations/shopify) and the
+[Events API](https://docs.nitrosend.com/integrations/events-api)
+
+- If the user is moving from another email tool, bring its opt-outs across
+  first with `email-platform-migration`, before connecting any source.
 - Shopify, HubSpot, Attio, Mailchimp and ActiveCampaign are native
   integrations. The user connects them from Integrations in the Nitrosend
   app; never ask for credentials in chat.
